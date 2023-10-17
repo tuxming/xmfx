@@ -1,0 +1,14 @@
+
+.my-btn{
+    /*-fx-type: primary medium;*/
+    -fx-type-color: danger;
+    -fx-type-size: medium;
+    -fx-type-round: semicircle;
+    -fx-type-hue: light;
+    /*-fx-type-display: over-switch-icon;*/
+}
+/*
+.my-test:hover{
+   -fx-background-color: red;
+   -fx-text-fill: green;
+}*/

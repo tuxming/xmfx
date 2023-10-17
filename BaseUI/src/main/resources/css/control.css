@@ -1,0 +1,35 @@
+/**
+ * 全局变量
+ */
+*{
+    -xm-primary-color: #4c14c1;
+    -xm-secondary-color: #585858;
+    -xm-danger-color: #ff4d4f;
+    -xm-success-color: #49c31b;
+    -xm-warning-color: #fc9e1b;
+
+    -xm-text-white: white;
+    -xm-text-black: #262626;
+}
+
+.text-field.xm-input-field{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.text-field.xm-input-field:focus{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.xm-tag .xm-tag-field{
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+.xm-tag .xm-tag-field:focus{
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-padding:0;
+}
+

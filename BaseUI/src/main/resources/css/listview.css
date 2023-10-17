@@ -1,0 +1,88 @@
+/*
+.xm-list-view:focused {
+    -fx-background-color: derive(#4c14c1ff, 0.5), #4c14c1ff,-fx-control-inner-background;
+}
+
+.xm-list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected{
+    -fx-background-color: #4c14c1ff;
+    -fx-text-fill: white;
+}
+
+.xm-list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background-color: #4c14c111;
+}
+
+.list-view > .virtual-flow > .scroll-bar .increment-button:hover > .increment-arrow,
+.list-view > .virtual-flow > .scroll-bar .decrement-button:hover > .decrement-arrow{
+    -fx-background-color: derive(#4c14c1ff, 0.3);
+}
+
+.list-view > .virtual-flow > .scroll-bar .track-background{
+    -fx-background-color: derive(#4c14c133, 0.5)
+}
+.list-view > .virtual-flow > .scroll-bar .thumb{
+    -fx-background-color: derive(#4c14c1ff, 0.8);
+}
+.list-view > .virtual-flow > .scroll-bar .thumb:hover{
+    -fx-background-color: derive(#4c14c1ff, 0.5);
+}
+.list-view > .virtual-flow > .scroll-bar .increment-button > .increment-arrow,
+.list-view > .virtual-flow > .scroll-bar .decrement-button > .decrement-arrow{
+    -fx-background-color: derive(#4c14c1ff, 0.8);
+}
+*/
+/**
+设置选中行，失去焦点以后的样子
+
+.xm-list-view .list-cell:filled:selected:focused,
+.xm-list-view .list-cell:filled:selected,
+.xm-list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.xm-list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+*/
+
+
+.xm-list-view:focused {
+    -fx-background-insets: -1, 0, 1;
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar .thumb{
+    -fx-background-radius: 8px;
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar:vertical .increment-button > .increment-arrow{
+    -fx-shape: "M0,0L10,0L5,3Z";
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar:vertical .decrement-button > .decrement-arrow{
+    -fx-shape: "M0,3L10,3L5,0Z";
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar:horizontal .increment-button > .increment-arrow{
+    -fx-shape: "M10,0L10,6L15,3Z";
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar:horizontal .decrement-button > .decrement-arrow{
+    -fx-shape: "M0,3L5,6L5,0Z";
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar .increment-button:hover,
+.xm-list-view > .virtual-flow > .scroll-bar .decrement-button:hover{
+    -fx-background-color: transparent;
+}
+
+
+.xm-list-view > .virtual-flow > .scroll-bar .increment-button:pressed > .increment-arrow,
+.xm-list-view > .virtual-flow > .scroll-bar .decrement-button:pressed > .decrement-arrow{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.xm-list-view > .virtual-flow > .scroll-bar .increment-button > .increment-arrow,
+.xm-list-view > .virtual-flow > .scroll-bar .decrement-button > .decrement-arrow{
+    -fx-scale-x: 1.4;
+    -fx-scale-y: 1.4;
+}
+

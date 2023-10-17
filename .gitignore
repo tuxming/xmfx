@@ -1,0 +1,13 @@
+.project
+/.idea/
+/.settings/
+/BaseUI/.settings/
+/BaseUI/target/
+/BaseUI/.project
+/BaseUI/BaseUI.iml
+/BaseUI/.classpath
+/Example/.settings/
+/Example/target/
+/Example/.project
+/Example/BaseUI.iml
+/Example/.classpath

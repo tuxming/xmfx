@@ -1,0 +1,40 @@
+.xm-tree-view:focused {
+    -fx-background-insets: -1, 0, 1;
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar .thumb{
+    -fx-background-radius: 8px;
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar:vertical .increment-button > .increment-arrow{
+    -fx-shape: "M0,0L10,0L5,3Z";
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar:vertical .decrement-button > .decrement-arrow{
+    -fx-shape: "M0,3L10,3L5,0Z";
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar:horizontal .increment-button > .increment-arrow{
+    -fx-shape: "M10,0L10,6L15,3Z";
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar:horizontal .decrement-button > .decrement-arrow{
+    -fx-shape: "M0,3L5,6L5,0Z";
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar .increment-button:hover,
+.xm-tree-view > .virtual-flow > .scroll-bar .decrement-button:hover{
+    -fx-background-color: transparent;
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar .increment-button:pressed > .increment-arrow,
+.xm-tree-view > .virtual-flow > .scroll-bar .decrement-button:pressed > .decrement-arrow{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.xm-tree-view > .virtual-flow > .scroll-bar .increment-button > .increment-arrow,
+.xm-tree-view > .virtual-flow > .scroll-bar .decrement-button > .decrement-arrow{
+    -fx-scale-x: 1.4;
+    -fx-scale-y: 1.4;
+}

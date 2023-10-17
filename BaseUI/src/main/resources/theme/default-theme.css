@@ -1,0 +1,278 @@
+/**
+* 全局颜色定义
+*/
+
+* {
+    -th-background-color: #001529;
+    -th-white-color: white;
+    -th-menu-text-color: #1677ff; /*#409eff;*/
+}
+
+/*
+左边布局的颜色
+*/
+.left-pane{
+    -fx-background-color: -th-background-color;
+    -fx-effect: dropshadow(two-pass-box , rgba(0, 0, 0, 0.2), 10, 0.1, 5, 0);
+}
+
+/*****************************窗体按钮的定义**************************/
+.win-btn{
+     -fx-text-fill: -th-white-color;
+     -fx-font-size: 20px;
+     -fx-cursor: hand;
+     -fx-border-radius: 30px;
+     -fx-background-radius: 30px;
+     -fx-pref-width: 20px;
+     -fx-pref-height: 20px;
+     -fx-max-height: 20px;
+     -fx-min-height: 20px;
+}
+
+.win-close-btn{
+    -fx-background-color: #ff7174;
+}
+
+.win-close-btn:hover{
+    -fx-background-color: derive(#ff7174, 15%);
+}
+
+.win-max-btn{
+    -fx-background-color: #58c565;
+}
+
+.win-max-btn:hover{
+    -fx-background-color: derive(#58c565, 15%);
+}
+
+.win-min-btn{
+    -fx-background-color: #f7cb49;
+}
+
+.win-min-btn:hover{
+    -fx-background-color: derive(#f7cb49, 30%);
+}
+
+.win-close-btn .close-icon{
+    -fx-translate-x: -1px;
+    -fx-shape: "M2,0L8,6L14,0L16,2L10,8L16,14L14,16L8,10L2,16L0,14L6,8L0,2Z";
+    -fx-background-color:-th-white-color;
+    -fx-max-width:8px;
+    -fx-max-height:8px;
+}
+
+.win-max-btn .max-icon{
+    -fx-border-width:1.5px;
+    -fx-border-color:-th-white-color;
+    -fx-max-width:9px;
+    -fx-max-height:9px;
+}
+
+.win-min-btn .min-icon{
+/*
+    -fx-background-color:-th-white-color;
+    -fx-max-width:8px;
+    -fx-max-height:2px;
+*/
+    -fx-shape: "M0,7L16,7L16,9L0,9Z";
+    -fx-background-color:white;
+    -fx-max-width:10px;
+    -fx-max-height:2px;
+}
+
+/*************菜单伸缩按钮的定义***************/
+.menu-expand-btn{
+    -fx-pref-width:25px;
+    -fx-pref-height:25px;
+    -fx-cursor: hand;
+    -fx-border-radius: 4px;
+    -fx-background-radius:4px;
+    -fx-padding: 0 0 0 5px;
+}
+
+.menu-expand-btn:hover{
+    -fx-background-color: #eeeeee;
+}
+
+.menu-expand-icon{
+    -fx-pref-width:15px;
+    -fx-max-width:15px;
+    -fx-pref-height:8px;
+    -fx-max-height:8px;
+    -fx-background-color: -th-background-color;
+    -fx-shape: "M2,0L6,4L10,0L12,0L6,6L0,0Z";
+    -fx-rotate: 90;
+}
+
+/****************logo*******************/
+.logo-img{
+    -fx-background-color: -th-white-color;
+}
+
+.x-title{
+    -fx-font-weight:bold;
+    -fx-fill: -th-white-color;
+    -fx-font-size:30;
+}
+.x-sub-title{
+    -fx-fill: -th-white-color;
+    -fx-font-size:20;
+}
+
+
+/*
+左侧菜单样式
+*/
+
+/**隐藏菜单左边的箭头图标**/
+.menu-tree .tree-cell .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.menu-tree .tree-cell .arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.menu-tree .tree-cell .tree-disclosure-node {
+    -fx-padding: 0;
+}
+
+.menu-tree{
+    -fx-border-style: none;
+    -fx-background-color:transparent;
+}
+
+.menu-tree .tree-cell{
+    -fx-background-color: -th-background-color;
+    -fx-text-fill: #f4f4f5;
+    -fx-padding: 15px 0px 15px 0px;
+    -fx-font-weight: 600;
+    -fx-font-size:15px;
+    -fx-border-width: 0 0 0 3px;
+    -fx-border-color: transparent;
+}
+
+.menu-tree .xm-icon, .menu-tree .tree-cell .xm-icon{
+    -fx-color: #f4f4f5;
+    -fx-size: 20;
+}
+
+.menu-tree .tree-cell:expanded, .menu-tree .tree-cell:sub-tree-item {
+    -fx-background-color: -th-background-color ;
+}
+.menu-tree .tree-cell:selected{
+    -fx-font-weight: bold ;
+    -fx-text-fill:-th-menu-text-color;
+    -fx-border-color: -th-menu-text-color;
+    -fx-background-color: derive(-th-background-color, 20%) ;
+}
+
+/*
+.xm-icon:hover{
+    -fx-color: red;
+}
+*/
+
+.menu-tree .tree-cell:selected .xm-icon{
+    -fx-color:-th-menu-text-color;
+}
+
+.menu-tree .tree-cell:hover {
+    -fx-background-color: derive(-th-background-color, 10%) ;
+}
+
+/**弹出菜单的样式**/
+
+.menu-list{
+    -fx-background-color: -th-background-color;
+}
+
+.menu-list .xm-icon{
+    -fx-color:-th-white-color;
+}
+.menu-list .label{
+    -fx-padding: 15px 15px;
+    -fx-font-size: 15px;
+    -fx-text-fill: -th-white-color;
+}
+
+.menu-list .label:hover{
+    -fx-font-weight: bold ;
+    -fx-background-color: derive(-th-background-color, 40%) ;
+}
+
+.menu-list .selected{
+    -fx-background-color: derive(-th-background-color, 30%);
+    -fx-text-fill: -th-menu-text-color;
+}
+
+.menu-list .selected .xm-icon{
+    -fx-color: -th-menu-text-color;
+}
+
+/*菜单滚动条*/
+.menu-scroll.scroll-bar{
+    -fx-opacity: 0.7;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 0;
+    -fx-font-size: 7px;
+}
+
+.menu-scroll.scroll-bar:horizontal{
+   -fx-background-insets: 0, 2.5 7 2.5 7;
+}
+
+.menu-scroll.scroll-bar:vertical {
+   -fx-background-insets: 0, 7 2.5 7 2.5;
+}
+
+.menu-scroll.scroll-bar > .thumb {
+    -fx-background-radius: 4px;
+    -fx-background-insets: 0, 1.5;
+    -fx-border-width: 0px;
+}
+
+.menu-scroll.scroll-bar:hover,.scroll-bar:pressed{
+    -fx-opacity: 1;
+}
+
+.menu-scroll.scroll-bar{
+    -fx-background-color:transparent, -th-white-color;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-insets: 0 0 0 0, 0 0 3 0, 1 1 4 1;
+    -fx-background-radius: 0;
+    -fx-padding: 6px 5px 6px 5px; /* 1 6 1 6 */
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:top {
+    -fx-background-insets: 0 0 0 0, 0 0 1 0, 1 1 2 1;
+    -fx-background-color: #bbbbbb, #f4f4f4, #ffffff;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-color: -th-menu-text-color, #f4f4f4, #ffffff;
+    -fx-background-insets: 0 0 0 0, 0 0 3 0, 1 1 4 1;
+    -fx-background-radius: 0;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected > .tab-container > .tab-label {
+    -fx-text-fill: -th-menu-text-color;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab:selected > .tab-container .xm-icon {
+    -fx-color: -th-menu-text-color;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .xm-icon {
+    -fx-color: -th-menu-text-color;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+
