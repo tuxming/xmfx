@@ -27,26 +27,23 @@ package com.xm2013.example.test;
 import com.xm2013.jfx.common.CallBack;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
-import com.xm2013.jfx.control.button.XmButton;
-import com.xm2013.jfx.control.treeview.XmCheckBoxTreeCell;
-import com.xm2013.jfx.control.treeview.XmMenuTreeCell;
-import com.xm2013.jfx.control.treeview.XmTreeCell;
-import com.xm2013.jfx.control.treeview.XmTreeView;
 import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
 import com.xm2013.jfx.control.icon.XmFontIcon;
+import com.xm2013.jfx.control.treeview.XmMenuTreeCell;
+import com.xm2013.jfx.control.treeview.XmTreeView;
 import javafx.application.Application;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
-import java.util.List;
-
-public class TestTreeView extends Application {
+/**
+ * 菜单玩法
+ */
+public class TestMenu extends Application {
 
 
     @Override
@@ -54,74 +51,85 @@ public class TestTreeView extends Application {
         XmFontIcon.setIconFont(getClass().getResource("/font/iconfont.ttf").toExternalForm());
 
         Pane pane = new Pane();
+
         MyDMenu rootMenu = FileTree.build();
 
         CheckBoxTreeItem<MyDMenu> rootItem = new CheckBoxTreeItem<>(rootMenu);
         rootItem.setGraphic(rootMenu.getIcon());
         rootItem.setExpanded(true);
 
-        //构建菜单
+        //构建菜单+--
+
         buildMenu(rootItem, rootMenu);
 
         XmTreeView<MyDMenu> treeView = new XmTreeView<>(rootItem);
-        treeView.setColorType(ColorType.danger());
-        treeView.setHueType(HueType.LIGHT);
-        treeView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        treeView.setColorType(ColorType.other("#aaaaaa"));
+        treeView.setHueType(HueType.DARK);
+//        treeView.setStyle("-fx-background-color: transparent;");
 
         pane.setStyle("-fx-background-color: black;");
 
         treeView.setCellFactory(new Callback<TreeView<MyDMenu>, TreeCell<MyDMenu>>() {
             @Override
             public TreeCell<MyDMenu> call(TreeView<MyDMenu> param) {
-                return new XmCheckBoxTreeCell<>(new Callback<TreeItem<MyDMenu>, ObservableValue<Boolean>>() {
+                return new XmMenuTreeCell<>(){
                     @Override
-                    public ObservableValue<Boolean> call(TreeItem<MyDMenu> param) {
-                        if (param instanceof CheckBoxTreeItem<?>) {
-                            return ((CheckBoxTreeItem<?>) param).selectedProperty();
-                        }
-                        return null;
+                    public void init() {
+                        setVisibleArrow(false);
+
+                        setUpdateDefaultSkin(new CallBack<XmMenuTreeCell<MyDMenu>>() {
+                            @Override
+                            public void call(XmMenuTreeCell<MyDMenu> cell) {
+                                cell.setStyle("-fx-background-color: transparent; -fx-text-fill: #aa00aa; -fx-border-width:0 0 0 5; -fx-border-color: transparent;");
+                                try {
+                                    XmFontIcon icon = (XmFontIcon) getItem().getIcon();
+                                    icon.setColor(Color.web("#aa00aa"));
+                                }catch (Exception e){
+                                }
+                            }
+                        });
+
+                        setUpdateOddSkin(new CallBack<XmMenuTreeCell<MyDMenu>>() {
+                            @Override
+                            public void call(XmMenuTreeCell<MyDMenu> cell) {
+                                cell.setStyle("-fx-background-color: transparent; -fx-text-fill: #aa00aa; -fx-border-width:0 0 0 5; -fx-border-color: transparent;");
+                                try {
+                                    XmFontIcon icon = (XmFontIcon) getItem().getIcon();
+                                    icon.setColor(Color.web("#aa00aa"));
+                                }catch (Exception e){
+
+                                }
+                            }
+                        });
+
+                        setUpdateHoverSkin(new CallBack<XmMenuTreeCell<MyDMenu>>() {
+                            @Override
+                            public void call(XmMenuTreeCell<MyDMenu> cell) {
+                                cell.setStyle("-fx-background-color: #ff00ff22; -fx-text-fill: #aa00aa; -fx-border-width:0 0 0 5; -fx-border-color: transparent;");
+                                try {
+                                    XmFontIcon icon = (XmFontIcon) getItem().getIcon();
+                                    icon.setColor(Color.web("#aa00aa"));
+                                }catch (Exception e){
+
+                                }
+                            }
+                        });
+
+                        setUpdateSelectedSkin(new CallBack<XmMenuTreeCell<MyDMenu>>() {
+                            @Override
+                            public void call(XmMenuTreeCell<MyDMenu> cell) {
+                                cell.setStyle("-fx-background-color: #aa00aa; -fx-text-fill: white;  -fx-border-width:0 0 0 5; -fx-border-color: #ff00ff;");
+                                try {
+                                    XmFontIcon icon = (XmFontIcon) getItem().getIcon();
+                                    icon.setColor(Color.WHITE);
+                                }catch (Exception e){
+
+                                }
+                            }
+                        });
+
                     }
-                }, new StringConverter<TreeItem<MyDMenu>>() {
-                    @Override
-                    public String toString(TreeItem<MyDMenu> object) {
-                        return object.getValue().getLabelName();
-                    }
 
-                    @Override
-                    public TreeItem<MyDMenu> fromString(String string) {
-                        return new TreeItem<>(new MyDMenu(string));
-                    }
-                });
-            }
-        });
-
-        XmButton btn = new XmButton("Button");
-        btn.setLayoutX(300);
-        btn.setLayoutY(50);
-
-        btn.setOnAction(e1 -> {
-            System.out.println(XmTreeView.getSelectValues(treeView));
-        });
-
-        MyDMenu rootMenu1 = FileTree.build();
-        CheckBoxTreeItem<MyDMenu> rootItem1 = new CheckBoxTreeItem<>(rootMenu1);
-        rootItem1.setGraphic(rootMenu1.getIcon());
-        rootItem1.setExpanded(true);
-
-        //构建菜单
-        buildMenu(rootItem1, rootMenu1);
-
-        XmTreeView<MyDMenu> treeView1 = new XmTreeView<>(rootItem1);
-        treeView1.setColorType(ColorType.danger());
-        treeView1.setHueType(HueType.DARK);
-        treeView1.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        treeView1.setLayoutX(500);
-        treeView1.setVisibleArrow(false);
-
-        treeView1.setCellFactory(new Callback<TreeView<MyDMenu>, TreeCell<MyDMenu>>() {
-            @Override
-            public TreeCell<MyDMenu> call(TreeView<MyDMenu> param) {
-                return new XmTreeCell<>(){
                     @Override
                     public void updateItem(MyDMenu item, boolean empty) {
                         super.updateItem(item, empty);
@@ -136,16 +144,14 @@ public class TestTreeView extends Application {
             }
         });
 
-        pane.getChildren().addAll(treeView, treeView1, btn);
+        pane.getChildren().addAll(treeView);
 
-        Scene scene = new Scene(pane, 800, 400);
+        Scene scene = new Scene(pane, 600, 400);
         primaryStage.setScene(scene);
-        primaryStage.setX(1000);
-        primaryStage.setY(600);
         primaryStage.show();
     }
 
-    public void buildMenu(CheckBoxTreeItem<MyDMenu> parent, MyDMenu root){
+    public void buildMenu(TreeItem<MyDMenu> parent, MyDMenu root){
 
         ObservableList<DropdownMenuItem> children = root.getChildren();
 
@@ -157,7 +163,7 @@ public class TestTreeView extends Application {
         parent.getChildren().clear();
         for(DropdownMenuItem m : children){
             MyDMenu menu = (MyDMenu) m;
-            CheckBoxTreeItem<MyDMenu> menuItem = new CheckBoxTreeItem<>();
+            TreeItem<MyDMenu> menuItem = new TreeItem<>();
             menuItem.setValue(menu);
             menu.getIcon().setMouseTransparent(true);
             menuItem.setGraphic(menu.getIcon());

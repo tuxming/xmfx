@@ -27,4 +27,7 @@ module com.xm2013.BaseUI {
     exports com.xm2013.jfx.control.data;
     exports com.xm2013.jfx.control.date;
     exports com.xm2013.jfx.control.pager;
+    exports com.xm2013.jfx.control.listview;
+    exports com.xm2013.jfx.control.treeview;
+    exports com.xm2013.jfx.control.tableview;
 }

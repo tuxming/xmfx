@@ -1,4 +1,5 @@
-<center><img src="doc/images/logo.png" width="300"/></center>
+<p align="center"><a href="#"><img width="200" src="doc/images/logo.png" /></a></p>
+
 <h1 align="center">XmFx UI</h1>
 
 [![](doc/images/all.jpg)](https://xm2012.com)
@@ -23,7 +24,7 @@
 
 - 目前除了javafx8的getStyleSheets().add()不兼容以外，几乎所有版本应该都支持。 除了javafx8的getStyleSheets().add()方法外，更高的版本都是支持base64格式的css代码。
 - 自定义css属性，本身就不支持通过setStyle()添加，只能通过引入css文件，或者getStyleSheets().add(base64)添加。这个与javafx版本无关
-- 基于windows11平台开发，如果在其他平台出现组件显示异常，功能使用不正常情况，请留言，或添加微信。
+- 基于windows10平台开发，如果在其他平台出现组件显示异常，功能使用不正常情况，请留言，或添加微信。
 
 
 

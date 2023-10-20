@@ -32,6 +32,7 @@ import javafx.css.PseudoClass;
 import javafx.scene.AccessibleAttribute;
 import javafx.scene.AccessibleRole;
 import javafx.scene.control.Skin;
+import javafx.scene.paint.Paint;
 
 /**
  *  XmCheckBox checkbox = new XmCheckBox(); 
@@ -357,6 +358,16 @@ public class XmCheckBox<T> extends SelectableText implements XmToggle<T>{
         return allowIndeterminate;
     }
 
+    private ObjectProperty<Paint> selectedColor = new SimpleObjectProperty<>();
+    public Paint getSelectedColor() {
+        return selectedColor.get();
+    }
+    public ObjectProperty<Paint> selectedColorProperty() {
+        return selectedColor;
+    }
+    public void setSelectedColor(Paint selectedColor) {
+        this.selectedColor.set(selectedColor);
+    }
     /* *************************************************************************
      *                                                                         *
      * Methods                                                                 *

@@ -28,12 +28,12 @@ import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.button.XmButton;
-import com.xm2013.jfx.control.data.XmListView;
-import com.xm2013.jfx.control.scroll.XmScrollBar;
+import com.xm2013.jfx.control.listview.XmCheckBoxListCell;
+import com.xm2013.jfx.control.listview.XmListCell;
+import com.xm2013.jfx.control.listview.XmListView;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -42,10 +42,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.util.List;
-
 public class TestListView extends Application {
-
 
     @Override
     public void start(Stage primaryStage) {
@@ -86,9 +83,39 @@ public class TestListView extends Application {
         listView.setCellFactory(new Callback<ListView<MyDMenu>, ListCell<MyDMenu>>() {
             @Override
             public ListCell<MyDMenu> call(ListView<MyDMenu> param) {
-                return new ListCell<>(){
+                return new XmCheckBoxListCell(){
                     @Override
-                    protected void updateItem(MyDMenu item, boolean empty) {
+                    public void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(empty || item == null){
+                            setText(null);
+                        }else{
+                            setText(((MyDMenu)item).getLabelName());
+                        }
+                    }
+                };
+            }
+        });
+
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listView.setSizeType(SizeType.MEDIUM);
+        listView.setHueType(HueType.DARK);
+//        listView.setColorType(ColorType.other("#666666"));
+        listView.setColorType(ColorType.danger());
+//        listView.setColorType(ColorType.other("#dd00dd"));
+//        listView.setPrefWidth(500);
+
+        XmButton btn = new XmButton("Button");
+        btn.setLayoutX(400);
+        btn.setLayoutY(20);
+
+        XmListView<MyDMenu> listView1 = new XmListView<>(menus);
+        listView1.setCellFactory(new Callback<ListView<MyDMenu>, ListCell<MyDMenu>>() {
+            @Override
+            public ListCell<MyDMenu> call(ListView<MyDMenu> param) {
+                return new XmListCell<>(){
+                    @Override
+                    public void updateItem(MyDMenu item, boolean empty) {
                         super.updateItem(item, empty);
                         if(empty || item == null){
                             setText(null);
@@ -99,17 +126,12 @@ public class TestListView extends Application {
                 };
             }
         });
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        listView.setSizeType(SizeType.MEDIUM);
-        listView.setHueType(HueType.DARK);
-        listView.setColorType(ColorType.other("#dd00dd"));
-
-        XmButton btn = new XmButton("Button");
-        btn.setLayoutX(400);
-        btn.setLayoutY(20);
+        listView1.setSizeType(SizeType.MEDIUM);
+        listView1.setHueType(HueType.LIGHT);
+        listView1.setLayoutX(300);
 
         pane.setStyle("-fx-background-color: black;");
-        pane.getChildren().addAll(listView, btn);
+        pane.getChildren().addAll(listView, listView1);
 
         Scene scene = new Scene(pane, 600, 400);
         primaryStage.setScene(scene);

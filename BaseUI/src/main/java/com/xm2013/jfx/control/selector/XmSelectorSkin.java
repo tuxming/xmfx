@@ -81,8 +81,6 @@ public class XmSelectorSkin<T> extends SkinBase<XmSelector<T>> {
     private ClickAnimate iconClickAnimate;
     private SelectorPopup<T> popup;
     
-    private List<T> items = new ArrayList<T>();
-
     public XmSelectorSkin(XmSelector<T> control) {
         super(control);
         this.control = control;
@@ -207,7 +205,6 @@ public class XmSelectorSkin<T> extends SkinBase<XmSelector<T>> {
         });
 
         registerChangeListener(control.itemsProperty(), e->{
-        	items.clear();
             popup = null;
         });
 
@@ -421,8 +418,6 @@ public class XmSelectorSkin<T> extends SkinBase<XmSelector<T>> {
             }
 
         }
-
-
 
         //重置图标的宽高，让他看起来居中，
         if(!control.isMultiple()){
@@ -930,10 +925,7 @@ public class XmSelectorSkin<T> extends SkinBase<XmSelector<T>> {
             T val = values.get(i);
             boolean isSelectedItem = false;
             if(SelectorType.TREE.equals(control.getSelectorType())) {
-            	if(items.size() == 0) {
-            		buildItems(control.getItems());
-            	}
-            	isSelectedItem = items.contains(val);
+            	isSelectedItem = getPopup().itemMap.keySet().contains(val);
             }else {
             	isSelectedItem = control.getItems().contains(val);
             }
@@ -945,18 +937,6 @@ public class XmSelectorSkin<T> extends SkinBase<XmSelector<T>> {
         }
     }
     
-    private void buildItems(List<T> items2) {
-    	
-    	SelectorConvert<T> converter = control.getConverter();
-    	for (T t : items2) {
-			items.add(t);
-			List<T> children = converter.getChildren(t);
-	        if(children!=null && children.size()>0){
-	            buildItems(children);
-	        }
-		}
-	}
-
 	private void removeTag(XmTag tag) {
     	tag.closeableProperty().unbind();
         tag.editableProperty().unbind();

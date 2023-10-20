@@ -132,6 +132,8 @@ public class XmCheckBoxSkin<T> extends SelectableTextSkin {
         control.radioButtonProperty().addListener(radioModelListener);
         control.addEventFilter(MouseEvent.MOUSE_CLICKED, clickHandler);
         control.addEventFilter(KeyEvent.KEY_RELEASED, keyEventHandler);
+
+        registerChangeListener(control.selectedColorProperty(), e -> updateColor(1));
     }
 
     /*--------------------------Event / Listener ----------------------*/
@@ -471,6 +473,10 @@ public class XmCheckBoxSkin<T> extends SelectableTextSkin {
             }
         }
 
+        if((control.isSelected() || control.isIndeterminate()) && control.getSelectedColor()!=null){
+            borderColor = control.getSelectedColor();
+        }
+
         RoundType roundType = control.getRoundType();
         Insets insets1, insets2;
         double widths1, widths2, round = 0;
@@ -525,7 +531,6 @@ public class XmCheckBoxSkin<T> extends SelectableTextSkin {
         }
 
         width += leftInset + rightInset;
-//        System.out.println("computeWidth: "+width);
         return width;
     }
 

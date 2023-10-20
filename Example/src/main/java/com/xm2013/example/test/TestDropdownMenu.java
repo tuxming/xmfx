@@ -28,22 +28,35 @@ import com.xm2013.jfx.common.CallBack;
 import com.xm2013.jfx.control.base.ClickAnimateType;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.RoundType;
+import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.button.XmButton;
+import com.xm2013.jfx.control.data.GridCell;
+import com.xm2013.jfx.control.data.GridView;
+import com.xm2013.jfx.control.data.XmCheckBoxGridCell;
 import com.xm2013.jfx.control.dropdown.DropdownMenu;
 import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
 import com.xm2013.jfx.control.dropdown.TriggerType;
 import com.xm2013.jfx.control.icon.XmFontIcon;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+
+import java.io.File;
+import java.util.Random;
 
 public class TestDropdownMenu extends Application {
 
@@ -136,4 +149,118 @@ public class TestDropdownMenu extends Application {
         launch(args);
     }
 
+    public static class TestGridView  extends Application {
+
+
+        @Override
+        public void start(Stage primaryStage) {
+            Pane pane = new Pane();
+
+            ObservableList<Color> list  = FXCollections.observableArrayList();
+
+            Random r = new Random(System.currentTimeMillis());
+            for(int i=0; i<400; i++){
+                list.add(new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1.0));
+            }
+
+            GridView<Color> myGrid = new GridView<>(list);
+            myGrid.setPrefWidth(400);
+            myGrid.setMultiple(true);
+            myGrid.setPrefHeight(400);
+            myGrid.setCellFactory(new Callback<GridView<Color>, GridCell<Color>>() {
+                public GridCell<Color> call(GridView<Color> gridView) {
+                    return new XmCheckBoxGridCell<>(){
+                        private boolean isSetSkin = false;
+                        @Override
+                        protected void updateItem(Color item, boolean empty) {
+
+                            if(!isSetSkin){
+                                getCheckBox().setColorType(ColorType.other("#ffffff"));
+                                getCheckBox().setSizeType(SizeType.SMALL);
+                                isSetSkin = false;
+                            }
+
+                            if (empty) {
+                                setGraphic(null);
+                            } else {
+                                Rectangle colorRect = new Rectangle();
+                                colorRect.setHeight(80);
+                                colorRect.setWidth(80);
+                                colorRect.setFill(item);
+                                setGraphic(colorRect);
+                            }
+                            super.updateItem(item, empty);
+
+
+                        }
+                    };
+                }
+            });
+
+            ObservableList<File> files  = FXCollections.observableArrayList();
+
+            File file = new File(TestSelector.class.getResource("/images/girls").getFile());
+            File[] listFiles = file.listFiles();
+            for (File file1 : listFiles) {
+                files.add(file1);
+            }
+
+            GridView<File> fileGrid = new GridView<>(files);
+            fileGrid.setPrefWidth(400);
+            fileGrid.setMultiple(false);
+            fileGrid.setPrefHeight(400);
+            fileGrid.setPrefWidth(800);
+            fileGrid.setLayoutX(400);
+            fileGrid.setCellWidth(150);
+            fileGrid.setCellHeight(150);
+
+            fileGrid.setCellFactory(new Callback<GridView<File>, GridCell<File>>() {
+                @Override
+                public GridCell<File> call(GridView<File> param) {
+                    return new XmCheckBoxGridCell<>(){
+                        private boolean isSetSkin = false;
+                        @Override
+                        protected void updateItem(File item, boolean empty) {
+
+                            if(!isSetSkin){
+                                getCheckBox().setSizeType(SizeType.SMALL);
+                                isSetSkin = true;
+                            }
+
+                            if (empty || item == null) {
+                                setText(null);
+                            } else {
+                                setText(item.getName());
+                                ImageView imageView = new ImageView(new Image(item.getAbsolutePath(), 150, 150, false, true));
+                                imageView.setFitWidth(150);
+                                setGraphic(imageView);
+                            }
+
+                            super.updateItem(item, empty);
+
+                        }
+                    };
+                }
+            });
+
+
+            XmButton btn = new XmButton("获取选择值");
+            btn.setLayoutY(50);
+            btn.setLayoutX(450);
+            btn.setOnAction(e -> {
+                System.out.println(myGrid.getValues());
+            });
+
+            pane.getChildren().addAll(myGrid, fileGrid);
+
+            Scene scene = new Scene(pane, 1200, 800);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+
+        public static void main(String[] args) {
+            launch(args);
+        }
+
+    }
 }

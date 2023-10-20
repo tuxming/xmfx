@@ -88,9 +88,9 @@ public class ClickRipperAnimate implements ClickAnimate{
                    BackgroundFill fill = fillList.get(i);
                    Paint fillPaint = null;
                    if(HueType.DARK.equals(hueType)){
-                       fillPaint = FxKit.getOpacityPaint(fill.getFill(), 0.5);
+                       fillPaint = FxKit.getOpacityPaint(color, 0.5);
                    }else{
-                       fillPaint = FxKit.getOpacityPaint(FxKit.derivePaint(fill.getFill(), 0.8), 0.8);
+                       fillPaint = FxKit.getOpacityPaint(FxKit.derivePaint(color, 1), 0.4);
                    }
                    fills[i] = new BackgroundFill(fillPaint, fill.getRadii(), fill.getInsets());
                }

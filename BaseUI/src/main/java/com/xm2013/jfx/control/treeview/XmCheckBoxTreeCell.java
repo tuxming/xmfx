@@ -22,26 +22,22 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.treeview;
 
 import com.xm2013.jfx.control.base.ColorType;
-import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.checkbox.XmCheckBox;
+import com.xm2013.jfx.control.data.CellUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
-import javafx.css.PseudoClass;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -183,9 +179,6 @@ public class XmCheckBoxTreeCell<T> extends XmTreeCell<T> {
         return tree -> new CheckBoxTreeCell<T>(getSelectedProperty, converter);
     }
 
-
-
-
     /* *************************************************************************
      *                                                                         *
      * Fields                                                                  *
@@ -304,7 +297,6 @@ public class XmCheckBoxTreeCell<T> extends XmTreeCell<T> {
 
         this.checkBox = new XmCheckBox<>();
         this.checkBox.setSelectedHightLight(true);
-        this.checkBox.setSizeType(SizeType.SMALL);
         this.box = new HBox();
         this.checkBox.setAllowIndeterminate(false);
 
@@ -317,9 +309,35 @@ public class XmCheckBoxTreeCell<T> extends XmTreeCell<T> {
             if(styleClass.contains("arrow") || styleClass.contains("tree-disclosure-node")){
                 return;
             }
+
             boolean selected = !checkBox.isSelected();
             checkBox.setSelected(selected);
+            updateSelected(true);
             getTreeView().getSelectionModel().select(getTreeItem());
+        });
+        this.checkBox.setMouseTransparent(true);
+
+//        this.checkBox.selectedProperty().addListener((ob, ov, nv)->{
+//            if(this.isSelected()){
+//                this.checkBox.setColorType(ColorType.other(Color.WHITE));
+//            }else{
+//                if(getTreeView() instanceof XmTreeView){
+//                    this.checkBox.setColorType(((XmTreeView<T>) getTreeView()).getColorType());
+//                }
+//            }
+//        });
+
+        this.selectedProperty().addListener((ob, ov, nv)->{
+
+//            this.checkBox.setSelected(nv);
+
+            if(nv){
+                this.checkBox.setColorType(ColorType.other(Color.WHITE));
+            }else{
+                if(getTreeView() instanceof XmTreeView){
+                    this.checkBox.setColorType(((XmTreeView<T>) getTreeView()).getColorType());
+                }
+            }
         });
 
 //        this.checkBox.selectedProperty().addListener((ob, ov, nv)->{

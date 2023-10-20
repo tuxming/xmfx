@@ -41,6 +41,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class SelectorPopup<T> extends Popup {
 
     protected final ObservableList<T> items;
@@ -55,6 +58,9 @@ public abstract class SelectorPopup<T> extends Popup {
     protected BooleanProperty multiple;
 
     protected VBox popupContentPane;
+
+    protected Map<T, Object> itemMap = new HashMap<>();
+
 
     public SelectorPopup(XmSelector<T> control){
         this.items = control.getItems();

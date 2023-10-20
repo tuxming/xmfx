@@ -27,12 +27,10 @@ package com.xm2013.jfx.control.selector;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
-import com.xm2013.jfx.control.data.XmCheckBoxTreeCell;
-import com.xm2013.jfx.control.data.XmTreeCell;
-import com.xm2013.jfx.control.data.XmTreeView;
-import com.xm2013.jfx.control.icon.XmFontIcon;
+import com.xm2013.jfx.control.treeview.XmCheckBoxTreeCell;
+import com.xm2013.jfx.control.treeview.XmTreeCell;
+import com.xm2013.jfx.control.treeview.XmTreeView;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -45,7 +43,7 @@ import java.util.*;
 
 public class SelectorTreePopup<T> extends SelectorPopup<T>{
     private XmTreeView<T> treeView;
-    private Map<T, TreeItem<T>> itemMap ;
+//    private Map<T, TreeItem<T>> itemMap ;
 
     public SelectorTreePopup(XmSelector<T> control){
         super(control);
@@ -60,10 +58,6 @@ public class SelectorTreePopup<T> extends SelectorPopup<T>{
 
     @Override
     public void buildList() {
-
-        if(itemMap == null){
-            itemMap = new HashMap<>();
-        }
 
         T t = (T) items.get(0);
 
@@ -86,7 +80,7 @@ public class SelectorTreePopup<T> extends SelectorPopup<T>{
             treeView = new XmTreeView<>(root);
 
             if(values!=null && values.size()>0){
-                TreeItem<T> item = itemMap.get(values.get(values.size() - 1));
+                TreeItem<T> item = (TreeItem<T>) itemMap.get(values.get(values.size() - 1));
                 if(item!=null){
                     treeView.getSelectionModel().select(item);
                 }
@@ -98,7 +92,6 @@ public class SelectorTreePopup<T> extends SelectorPopup<T>{
         treeView.setHueType(hueType);
         treeView.setSizeType(sizeType);
 
-        final Map<T, TreeItem<T>> finalMap = itemMap;
         treeView.setCellFactory(new Callback<TreeView<T>, TreeCell<T>>() {
             @Override
             public TreeCell<T> call(TreeView<T> param) {
@@ -139,7 +132,7 @@ public class SelectorTreePopup<T> extends SelectorPopup<T>{
                         List<T> oldValues = new ArrayList<>(values);
                     	values.clear();
                     	for (T t : oldValues) {
-    						if(!finalMap.keySet().contains(t)) {
+    						if(!itemMap.keySet().contains(t)) {
     							values.add(t);
     						}
     					}
@@ -179,7 +172,7 @@ public class SelectorTreePopup<T> extends SelectorPopup<T>{
         if(multiple.get()){
             traverseTree((CheckBoxTreeItem<T>) treeView.getRoot(), selects);
         }else{
-            TreeItem<T> item = itemMap.get(values.get(values.size() - 1));
+            TreeItem<T> item = (TreeItem<T>) itemMap.get(values.get(values.size() - 1));
             if(item!=null){
                 treeView.getSelectionModel().select(item);
             }

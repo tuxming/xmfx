@@ -25,7 +25,9 @@
 package com.xm2013.jfx.control.selector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.xm2013.jfx.control.base.ColorType;
@@ -38,6 +40,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.TreeItem;
 import javafx.util.Callback;
 
 

@@ -27,7 +27,8 @@ package com.xm2013.jfx.control.selector;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
-import com.xm2013.jfx.control.data.XmListView;
+import com.xm2013.jfx.control.listview.XmListCell;
+import com.xm2013.jfx.control.listview.XmListView;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ListChangeListener;
@@ -72,7 +73,7 @@ public class SelectorListPopup<T> extends SelectorPopup<T>{
         listView.setCellFactory(new Callback<ListView<T>, ListCell<T>>() {
             @Override
             public ListCell<T> call(ListView<T> param) {
-                return new ListCell<>(){
+                return new XmListCell<>(){
                     @Override
                     protected void updateItem(T item, boolean empty) {
                         super.updateItem(item, empty);

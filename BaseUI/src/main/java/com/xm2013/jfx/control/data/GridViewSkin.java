@@ -71,8 +71,8 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, GridRow<T
         updateGridViewItems();
         updateItemCount();
 
-        getBar();
-        updateScrollBarSkin();
+        VirtualFlowScrollHelper helper = new VirtualFlowScrollHelper(flow);
+        helper.colorTypeProperty().bind(this.control.colorTypeProperty());
 
         // Register listeners
         registerChangeListener(control.itemsProperty(), e -> updateGridViewItems());
@@ -94,110 +94,6 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, GridRow<T
         registerChangeListener(control.verticalCellSpacingProperty(), e -> getFlow().recreateCells());
         registerChangeListener(control.widthProperty(), e ->  updateItemCount());
         registerChangeListener(control.heightProperty(), e ->  updateItemCount());
-    }
-
-    /**
-     * 获取虚拟滚动条, 因为gridView理论上是不会出现水平滚动条的，所以就不需要针对水平滚动条做处理
-     */
-    private void getBar(){
-        ObservableList<Node> flowChildren = flow.getChildrenUnmodifiable();
-        for (Node flowChild : flowChildren) {
-            if(flowChild instanceof ScrollBar){
-                ScrollBar bar = (ScrollBar) flowChild;
-                Orientation orientation = bar.getOrientation();
-                if(Orientation.VERTICAL.equals(orientation)){
-                    vbar = bar;
-                    break;
-                }
-            }
-        }
-    }
-
-    private void updateScrollBarSkin(){
-        Paint color = control.getColorType().getPaint();
-        Paint scrollBarArrowHoverColor = FxKit.getOpacityPaint(color, 0.85),
-                scrollBarArrowColor = FxKit.getOpacityPaint(color, 0.5),
-                scrollBarThumbHoverColor =  FxKit.getOpacityPaint(color, 0.85),
-                scrollBarThumbColor = FxKit.getOpacityPaint(color, 0.5);
-
-        String scrollBarBgColor = FxKit.getLightPaint(color, 0.9).toString().replace("0x", "#");
-
-        ObservableList<Node> vbarChildren = vbar.getChildrenUnmodifiable();
-        for (Node vbarChild : vbarChildren) {
-            ObservableList<String> styleClass = vbarChild.getStyleClass();
-            if(styleClass.contains("track-background")){
-                vbarChild.setStyle("-fx-background-color: "+scrollBarBgColor);
-            }else if(styleClass.contains("increment-button")){
-                Region incrementBtn = (Region) vbarChild;
-                Region incrementArrow = (Region) incrementBtn.getChildrenUnmodifiable().get(0);
-                SVGPath incPath = new SVGPath();
-                incPath.setContent("M0,0L10,0L5,3Z");
-                incrementArrow.setShape(incPath);
-                incrementBtn.setStyle("-fx-background-color: transparent;");
-
-                String bg = "-fx-background-color: "+scrollBarArrowColor.toString().replace("0x", "#")+";";
-                String hoverBg = "-fx-background-color: "+scrollBarArrowHoverColor.toString().replace("0x", "#")+";";
-                incrementArrow.setStyle(bg);
-                incrementBtn.setScaleY(1.2);
-                incrementBtn.setScaleX(1.2);
-                incrementArrow.setStyle(bg);
-
-                incrementBtn.hoverProperty().addListener((ob, ov, nv)->{
-                    if(nv){
-                        incrementBtn.setScaleY(1.2);
-                        incrementBtn.setScaleX(1.2);
-                        incrementArrow.setStyle(hoverBg);
-                    }else{
-                        incrementBtn.setScaleY(1.2);
-                        incrementBtn.setScaleX(1.2);
-                        incrementArrow.setStyle(bg);
-                    }
-                });
-            }else if(styleClass.contains("decrement-button")){
-                Region decrementBtn = (Region) vbarChild;
-                Region decrementArrow = (Region) decrementBtn.getChildrenUnmodifiable().get(0);
-                SVGPath decPath = new SVGPath();
-                decPath.setContent("M0,3L10,3L5,0Z");
-                decrementArrow.setShape(decPath);
-                decrementBtn.setStyle("-fx-background-color: transparent;");
-
-                String bg = "-fx-background-color: "+scrollBarArrowColor.toString().replace("0x", "#")+";";
-                String hoverBg = "-fx-background-color: "+scrollBarArrowHoverColor.toString().replace("0x", "#")+";";
-                decrementArrow.setStyle(bg);
-                decrementBtn.setScaleY(1.2);
-                decrementBtn.setScaleX(1.2);
-                decrementArrow.setStyle(bg);
-
-                decrementBtn.hoverProperty().addListener((ob, ov, nv)->{
-                    if(nv){
-                        decrementBtn.setScaleY(1.2);
-                        decrementBtn.setScaleX(1.2);
-                        decrementArrow.setStyle(hoverBg);
-                    }else{
-                        decrementBtn.setScaleY(1.2);
-                        decrementBtn.setScaleX(1.2);
-                        decrementArrow.setStyle(bg);
-                    }
-                });
-
-            }else if(styleClass.contains("track")){
-                vbarChild.setStyle("-fx-background-color: transparent;");
-            }else if(styleClass.contains("thumb")){
-                StackPane thumb = (StackPane) vbarChild;
-
-                Insets ins = new Insets(0,2,0,2);
-                Background bg = new Background(new BackgroundFill(scrollBarThumbColor, new CornerRadii(10), ins));
-                Background hoverBg = new Background(new BackgroundFill(scrollBarThumbHoverColor, new CornerRadii(10), ins));
-                thumb.setBackground(bg);
-                thumb.hoverProperty().addListener((ob, ov, nv)->{
-                    if(nv){
-                        thumb.setBackground(hoverBg);
-                    }else{
-                        thumb.setBackground(bg);
-                    }
-                });
-            }
-        }
     }
 
     @Override

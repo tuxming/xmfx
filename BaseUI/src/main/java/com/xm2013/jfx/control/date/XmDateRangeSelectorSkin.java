@@ -292,6 +292,11 @@ public class XmDateRangeSelectorSkin extends SkinBase {
 
         }else{
             updateSkin(startField.isHover()?2: 1, 1);
+
+            if(!endField.isFocused()){
+                focusLine.setVisible(false);
+            }
+
         }
     };
 
@@ -306,6 +311,10 @@ public class XmDateRangeSelectorSkin extends SkinBase {
 
         }else{
             updateSkin(endField.isHover()?2: 1, 1);
+
+            if(!startField.isFocused()){
+                focusLine.setVisible(false);
+            }
         }
     };
 
@@ -332,10 +341,9 @@ public class XmDateRangeSelectorSkin extends SkinBase {
         focusLine.setStartY(y);
         focusLine.setEndY(y);
 
-        if(prefFocusField == null){
-
-            Bounds layoutBounds = currField.getLayoutBounds();
-            Bounds bounds = currField.localToParent(layoutBounds);
+        Bounds layoutBounds = currField.getLayoutBounds();
+        Bounds bounds = currField.localToParent(layoutBounds);
+        if(!focusLine.isVisible() || prefFocusField == null){
 
             double startX = bounds.getMinX(),
                     endX = bounds.getMaxX(),
@@ -357,8 +365,6 @@ public class XmDateRangeSelectorSkin extends SkinBase {
                     new KeyFrame(Duration.millis(150), "kf2", kv21, kv22, kv23));
             tl.play();
         }else{
-            Bounds layoutBounds = currField.getLayoutBounds();
-            Bounds bounds = currField.localToParent(layoutBounds);
 
             double startX = bounds.getMinX(),
                     endX = bounds.getMaxX();
@@ -372,6 +378,7 @@ public class XmDateRangeSelectorSkin extends SkinBase {
 
             Timeline tl = new Timeline(new KeyFrame(Duration.millis(0), "kf1", kv11, kv12),
                     new KeyFrame(Duration.millis(150), "kf2", kv21, kv22));
+
             tl.play();
         }
 
