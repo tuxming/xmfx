@@ -22,14 +22,14 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.gridview;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.IndexedCell;
 import javafx.scene.control.Skin;
 
 /**
- * A GridRow is a container for {@link com.xm2013.jfx.control.data.GridCell}, and represents a single
+ * A GridRow is a container for {@link com.xm2013.jfx.control.gridview.GridCell}, and represents a single
  * row inside a {@link GridView}.
  */
 class GridRow<T> extends IndexedCell<T>{

@@ -22,14 +22,24 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.ui;
 
-import javafx.scene.control.skin.CellSkinBase;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class GridCellSkin<T> extends CellSkinBase<GridCell<T>> {
+public class FxApp extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        DefaultTheme theme = new DefaultTheme();
 
-    public GridCellSkin(GridCell<T> control) {
-        super(control);
+        FxWindow window = new FxWindow(1024,768, theme);
+        window.setTitle("test");
+        window.setMoveControl(theme);
+        window.show();
+
     }
 
+    public static void main(String[] args) {
+        Application.launch(FxApp.class, args);
+    }
 }

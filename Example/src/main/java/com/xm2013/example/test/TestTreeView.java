@@ -24,12 +24,10 @@
  */
 package com.xm2013.example.test;
 
-import com.xm2013.jfx.common.CallBack;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.button.XmButton;
 import com.xm2013.jfx.control.treeview.XmCheckBoxTreeCell;
-import com.xm2013.jfx.control.treeview.XmMenuTreeCell;
 import com.xm2013.jfx.control.treeview.XmTreeCell;
 import com.xm2013.jfx.control.treeview.XmTreeView;
 import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
@@ -43,8 +41,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
-import java.util.List;
 
 public class TestTreeView extends Application {
 

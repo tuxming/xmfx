@@ -29,8 +29,7 @@ import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.RoundType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.button.XmButton;
-import com.xm2013.jfx.control.data.XmCheckBoxGridCell;
-import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
+import com.xm2013.jfx.control.gridview.XmCheckBoxGridCell;
 import com.xm2013.jfx.control.icon.XmFontIcon;
 import com.xm2013.jfx.control.selector.*;
 import javafx.application.Application;
@@ -73,13 +72,14 @@ public class TestSelector extends Application {
         listSelector.setLayoutY(10);
         listSelector.setLayoutX(10);
         listSelector.setMultiple(true);
-        listSelector.setSizeType(SizeType.LARGE);
+        listSelector.setSizeType(SizeType.MEDIUM);
         listSelector.setRoundType(RoundType.NONE);
 
         XmSelector<MySelectorItem> treeSelector = buildTreeXmSelector();
         treeSelector.setLayoutY(100);
         treeSelector.setPrefWidth(400);
         treeSelector.setLayoutX(10);
+        treeSelector.setMultiple(true);
 
         XmSelector<File> gridSelector = buildImageXmSelector();
         gridSelector.setLayoutY(200);
@@ -132,7 +132,7 @@ public class TestSelector extends Application {
             @Override
             public void updateItem(IndexedCell<File> cell, File item, boolean empty) {
 
-                if(!isSetSkin) {
+                if(!isSetSkin && cell instanceof XmCheckBoxGridCell) {
                     XmCheckBoxGridCell<File> checkCell= (XmCheckBoxGridCell<File>) cell;
                     checkCell.getCheckBox().setSizeType(SizeType.SMALL);
                 }

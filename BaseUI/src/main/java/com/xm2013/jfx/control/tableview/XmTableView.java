@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023 tuxming@sina.com / wechat: t5x5m5
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
 package com.xm2013.jfx.control.tableview;
 
 import com.xm2013.jfx.common.FxKit;
@@ -174,15 +198,18 @@ public class XmTableView<S> extends TableView<S> {
         this.cellTextColor.set(cellTextColor);
     }
 
+    /**
+     * 当使用XmCheckBoxTableCell的时候，可通过此方法获取选中的数据
+     */
     private ObservableList<S> checkedValues = FXCollections.observableArrayList();
     public ObservableList<S> getCheckedValues() {
         return checkedValues;
     }
     public void setCheckedValues(ObservableList<S> checkedValues) {
-        this.checkedValues.addAll(checkedValues);
+        this.checkedValues.setAll(checkedValues);
     }
-    public void addCheckedValue(S value){
-        this.checkedValues.add(value);
+    public void addCheckedValue(S ...value){
+        this.checkedValues.addAll(value);
     }
 
     /*----------------------------css style ------------------*/

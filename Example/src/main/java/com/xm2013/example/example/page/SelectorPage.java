@@ -30,7 +30,7 @@ import com.xm2013.jfx.control.base.*;
 import com.xm2013.jfx.control.button.XmButton;
 import com.xm2013.jfx.control.checkbox.XmCheckBox;
 import com.xm2013.jfx.control.checkbox.XmToggleGroup;
-import com.xm2013.jfx.control.data.XmCheckBoxGridCell;
+import com.xm2013.jfx.control.gridview.XmCheckBoxGridCell;
 import com.xm2013.jfx.control.textfield.XmFieldDisplayType;
 import com.xm2013.jfx.control.textfield.XmTextField;
 import com.xm2013.jfx.control.icon.XmFontIcon;

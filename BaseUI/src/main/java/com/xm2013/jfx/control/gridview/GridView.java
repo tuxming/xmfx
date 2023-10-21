@@ -22,7 +22,7 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.gridview;
 
 import com.xm2013.jfx.common.FxKit;
 import com.xm2013.jfx.control.base.XmControl;
@@ -465,37 +465,30 @@ public class GridView<T> extends XmControl {
         return focusModel;
     }
 
-    /**
-     * 选中的值
-     */
-    private ReadOnlyObjectProperty<ObservableList<T>> values = new ReadOnlyObjectWrapper<ObservableList<T>>(FXCollections.observableArrayList());
-    public ObservableList<T> getValues() {
-        return values.get();
+    private ObjectProperty<T> value = new SimpleObjectProperty<>();
+    public Object getValue() {
+        return value.get();
     }
-    public void setValues(T ...value) {
-        this.values.get().setAll(value);
+    public ObjectProperty<T> valueProperty() {
+        return value;
     }
-    public ObservableList<T> valuesProperty(){
-        return this.values.get();
+    public void setValue(T value) {
+        this.value.set(value);
     }
 
     /**
-     * 设置选选择模式, 单选还是多选, 默认单选模式
+     * 当使用XmCheckBoxGridCell的时候，可通过此方法获取选中的数据
      */
-    private BooleanProperty multiple;
-    public boolean isMultiple() {
-        return multipleProperty().get();
+    private ObservableList<T> checkedValues = FXCollections.observableArrayList();
+    public ObservableList<T> getCheckedValues() {
+        return checkedValues;
     }
-    public BooleanProperty multipleProperty() {
-        if(multiple == null){
-            multiple = FxKit.newBooleanProperty(false, GridView.StyleableProperties.MULTIPLE, this, "multiple");
-        }
-        return multiple;
+    public void setCheckedValues(List<T> checkedValues) {
+        this.checkedValues.setAll(checkedValues);
     }
-    public void setMultiple(boolean multiple) {
-        this.multipleProperty().set(multiple);
+    public void addCheckedValue(T ...value){
+        this.checkedValues.addAll(value);
     }
-
 
     /***************************************************************************
      *                                                                         *
@@ -597,23 +590,6 @@ public class GridView<T> extends XmControl {
 //            }
 //        };
 
-        /**
-         * -fx-multiple: true | false
-         */
-        private static final CssMetaData<GridView,Boolean> MULTIPLE = new CssMetaData<GridView, Boolean>(
-                "-fx-multiple", BooleanConverter.getInstance(), true, true
-        ) {
-            @Override
-            public boolean isSettable(GridView styleable) {
-                return styleable.multiple == null || !styleable.multiple.isBound();
-            }
-
-            @Override
-            public StyleableProperty<Boolean> getStyleableProperty(GridView styleable) {
-                return (StyleableProperty<Boolean>) styleable.multipleProperty();
-            }
-        };
-            
         private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables =

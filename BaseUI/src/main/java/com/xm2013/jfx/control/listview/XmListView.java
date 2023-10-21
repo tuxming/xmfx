@@ -27,6 +27,7 @@ package com.xm2013.jfx.control.listview;
 import com.xm2013.jfx.common.FxKit;
 import com.xm2013.jfx.control.base.*;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.CssMetaData;
 import javafx.css.Styleable;
@@ -122,6 +123,21 @@ public class XmListView<T> extends ListView<T> {
     }
     public void setHueType(HueType hueType) {
         this.hueTypeProperty().set(hueType);
+    }
+
+
+    /**
+     * 当使用XmCheckBoxListCell的时候，可通过此方法获取选中的数据
+     */
+    private ObservableList<T> checkedValues = FXCollections.observableArrayList();
+    public ObservableList<T> getCheckedValues() {
+        return checkedValues;
+    }
+    public void setCheckedValues(List<T> checkedValues) {
+        this.checkedValues.setAll(checkedValues);
+    }
+    public void addCheckedValue(T ...value){
+        this.checkedValues.addAll(value);
     }
 
     /*----------------------------css style ------------------*/

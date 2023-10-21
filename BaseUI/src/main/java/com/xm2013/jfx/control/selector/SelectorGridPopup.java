@@ -25,22 +25,20 @@
 package com.xm2013.jfx.control.selector;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
-import com.xm2013.jfx.control.data.GridCell;
-import com.xm2013.jfx.control.data.GridView;
-import com.xm2013.jfx.control.data.XmCheckBoxGridCell;
+import com.xm2013.jfx.control.gridview.GridCell;
+import com.xm2013.jfx.control.gridview.GridView;
+import com.xm2013.jfx.control.gridview.XmCheckBoxGridCell;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.util.Callback;
 
 
@@ -62,49 +60,86 @@ public class SelectorGridPopup<T> extends SelectorPopup<T>{
     public void buildList() {
 
         gridView = new GridView<>(items);
-        gridView.multipleProperty().bind(multiple);
+//        gridView.multipleProperty().bind(multiple);
         gridView.setPrefHeight(400);
-        gridView.setCellFactory(new Callback<GridView<T>, GridCell<T>>() {
-            public GridCell<T> call(GridView<T> gridView) {
-                return new XmCheckBoxGridCell<T>(){
-                    private boolean isSetSkin = false;
-                    @Override
-                    protected void updateItem(T item, boolean empty) {
 
-                        if(!isSetSkin){
-                            getCheckBox().setColorType(ColorType.other("#ffffff"));
-                            isSetSkin = false;
+        if(multiple.get()){
+            gridView.setCellFactory(new Callback<GridView<T>, GridCell<T>>() {
+                public GridCell<T> call(GridView<T> gridView) {
+                    return new XmCheckBoxGridCell<T>(){
+                        @Override
+                        public void updateItem(T item, boolean empty) {
+                            if(cellFactory!=null){
+                                cellFactory.updateItem(this, item, empty);
+                            }
+                            super.updateItem(item, empty);
                         }
-                        if(cellFactory!=null){
-                            cellFactory.updateItem(this, item, empty);
+                    };
+                }
+            });
+        }else{
+            gridView.setCellFactory(new Callback<GridView<T>, GridCell<T>>() {
+                @Override
+                public GridCell<T> call(GridView<T> param) {
+                    return new GridCell<>(){
+                        @Override
+                        protected void updateItem(T item, boolean empty) {
+                            if(cellFactory!=null){
+                                cellFactory.updateItem(this, item, empty);
+                            }
+                            super.updateItem(item, empty);
                         }
-                        super.updateItem(item, empty);
-                    }
-                };
-            }
-        });
+                    };
+                }
+            });
+        }
+
 
         this.popupContentPane.getChildren().add(gridView);
 
-        gridView.getValues().addListener(new ListChangeListener<T>() {
-            @Override
-            public void onChanged(Change<? extends T> c) {
-            	
-            	List<T> oldValues = new ArrayList<>(values);
-            	values.clear();
-            	for (T t : oldValues) {
-					if(!items.contains(t)) {
-						values.add(t);
-					}
-				}
-            	values.addAll(gridView.getValues());
-            	
+//        gridView.getValues().addListener(new ListChangeListener<T>() {
+//            @Override
+//            public void onChanged(Change<? extends T> c) {
+//
+//            	List<T> oldValues = new ArrayList<>(values);
+//            	values.clear();
+//            	for (T t : oldValues) {
+//					if(!items.contains(t)) {
+//						values.add(t);
+//					}
+//				}
+//            	values.addAll(gridView.getValues());
+//
+//            }
+//        });
+    }
+
+    private void setSelected(ObservableList<T> values){
+        if(multiple.get()){
+            List<T> newValues = new ArrayList<>();
+            for(T value : values){
+                if(items.contains(value)){
+                    newValues.add(value);
+                }
             }
-        });
+            gridView.setCheckedValues(newValues);
+        }else{
+            if(values.size()>0){
+                gridView.setValue(values.get(values.size()-1));
+            }
+        }
     }
 
     @Override
     public void doShow(Node node, ObservableList<T> values, double x, double y) {
+        setSelected(values);
+
+        if(multiple.get()){
+            gridView.getCheckedValues().addListener(checkedListener);
+        }else{
+            gridView.valueProperty().addListener(selectionListener);
+        }
+
         gridView.setPrefWidth(node.getLayoutBounds().getWidth());
         this.show(node, x, y);
     }
@@ -116,6 +151,28 @@ public class SelectorGridPopup<T> extends SelectorPopup<T>{
 
     @Override
     public void removeItem(T t) {
-        gridView.getValues().remove(t);
+//        gridView.getValues().remove(t);
     }
+
+    private ListChangeListener<T> checkedListener = new ListChangeListener<T>() {
+        @Override
+        public void onChanged(Change<? extends T> c) {
+            ObservableList<T> selectedItems = gridView.getCheckedValues();
+            List<T> oldValues = new ArrayList<>(values);
+            values.clear();
+
+            for(T old : oldValues){
+                boolean is = items.contains(old);
+                if(!is) {
+                    values.add(old);
+                }
+            }
+            values.addAll(selectedItems);
+        }
+    };
+
+    private ChangeListener<T> selectionListener = (ob, ov, nv)->{
+        values.setAll(nv);
+    };
+
 }

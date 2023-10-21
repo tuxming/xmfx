@@ -1,4 +1,4 @@
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.base;
 
 import com.xm2013.jfx.common.FxKit;
 import com.xm2013.jfx.control.base.ColorType;

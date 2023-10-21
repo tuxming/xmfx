@@ -25,8 +25,8 @@
 package com.xm2013.example.example;
 
 import com.xm2013.jfx.control.icon.XmFontIcon;
-import com.xm2013.jfx.control.ui.DefaultTheme;
-import com.xm2013.jfx.control.ui.FxWindow;
+import com.xm2013.jfx.ui.DefaultTheme;
+import com.xm2013.jfx.ui.FxWindow;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;

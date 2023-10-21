@@ -27,9 +27,9 @@ package com.xm2013.jfx.control.selector;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
+import com.xm2013.jfx.control.listview.XmCheckBoxListCell;
 import com.xm2013.jfx.control.listview.XmListCell;
 import com.xm2013.jfx.control.listview.XmListView;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -37,7 +37,6 @@ import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.SelectionMode;
 import javafx.util.Callback;
 
 import java.util.ArrayList;
@@ -70,57 +69,58 @@ public class SelectorListPopup<T> extends SelectorPopup<T>{
         listView.setSizeType(sizeType);
         listView.setHueType(hueType);
         listView.getStyleClass().add("xm-selector-list");
-        listView.setCellFactory(new Callback<ListView<T>, ListCell<T>>() {
-            @Override
-            public ListCell<T> call(ListView<T> param) {
-                return new XmListCell<>(){
-                    @Override
-                    protected void updateItem(T item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if(cellFactory!=null){
-                            cellFactory.updateItem(this, item, empty);
-                        }else{
-                            if(item == null || empty){
-                                setText(null);
-                                setGraphic(null);
+
+        if(multiple.get()){
+            listView.setCellFactory(new Callback<ListView<T>, ListCell<T>>() {
+                @Override
+                public ListCell<T> call(ListView<T> param) {
+                    return new XmCheckBoxListCell<>(){
+                        @Override
+                        public void updateItem(T item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if(cellFactory!=null){
+                                cellFactory.updateItem(this, item, empty);
                             }else{
-                                setText(convert.toString(item));
+                                if(item == null || empty){
+                                    setText(null);
+                                    setGraphic(null);
+                                }else{
+                                    setText(convert.toString(item));
+                                }
                             }
                         }
-                    }
-                };
-            }
-        });
+                    };
+                }
+            });
+        }else{
+            listView.setCellFactory(new Callback<ListView<T>, ListCell<T>>() {
+                @Override
+                public ListCell<T> call(ListView<T> param) {
+                    return new XmListCell<>(){
+                        @Override
+                        protected void updateItem(T item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if(cellFactory!=null){
+                                cellFactory.updateItem(this, item, empty);
+                            }else{
+                                if(item == null || empty){
+                                    setText(null);
+                                    setGraphic(null);
+                                }else{
+                                    setText(convert.toString(item));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+        }
+
         listView.setFocusTraversable(false);
         listView.setItems(items);
         this.popupContentPane.getChildren().add(listView);
 
-        MultipleSelectionModel<T> selectionModel = listView.getSelectionModel();
-        selectionModel.selectionModeProperty().bind(
-                Bindings.createObjectBinding(
-                        ()-> multiple.get()? SelectionMode.MULTIPLE:SelectionMode.SINGLE,
-                        super.multiple
-                ));
-
         setSelected(values);
-
-//        values.addListener(new ListChangeListener<T>() {
-//            @Override
-//            public void onChanged(Change<? extends T> c) {
-//                while(c.next()){
-//                    if(c.wasRemoved()){
-//                        List<? extends T> removes = c.getRemoved();
-//                        for(T v : removes){
-//                            int idx = items.indexOf(v);
-//                            if(idx > -1){
-//                                listView.getSelectionModel().clearSelection(idx);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        });
-
     }
 
     private void setSelected(ObservableList<T> values){
@@ -128,9 +128,14 @@ public class SelectorListPopup<T> extends SelectorPopup<T>{
 
         selectionModel.clearSelection();
         if(multiple.get()){
-            for(T v : values){
-                selectionModel.select(v);
+            List<T> newValues = new ArrayList<>();
+            for(T value : values){
+                if(items.contains(value)){
+                    newValues.add(value);
+                }
             }
+
+            listView.setCheckedValues(newValues);
         }else{
             if(values.size()>0){
                 selectionModel.select(values.get(values.size()-1));
@@ -140,9 +145,14 @@ public class SelectorListPopup<T> extends SelectorPopup<T>{
 
     @Override
     public void doShow(Node node, ObservableList<T> values, double x, double y) {
-//        setSelected(values);
+        setSelected(values);
 
-        listView.getSelectionModel().getSelectedItems().addListener(selectionChange);
+        if(multiple.get()){
+            listView.getCheckedValues().addListener(checkedListener);
+        }else{
+            listView.getSelectionModel().getSelectedItems().addListener(selectionChange);
+        }
+
         listView.setPrefWidth(node.getLayoutBounds().getWidth());
 
         double fixedCellSize = listView.getFixedCellSize();
@@ -164,10 +174,12 @@ public class SelectorListPopup<T> extends SelectorPopup<T>{
 
     @Override
     public void doHide() {
-
-        listView.getSelectionModel().getSelectedItems().removeListener(selectionChange);
+        if(multiple.get()){
+            listView.getCheckedValues().removeListener(checkedListener);
+        }else{
+            listView.getSelectionModel().getSelectedItems().removeListener(selectionChange);
+        }
         this.hide();
-
     }
 
     @Override
@@ -181,25 +193,24 @@ public class SelectorListPopup<T> extends SelectorPopup<T>{
     private ListChangeListener<T> selectionChange = new ListChangeListener<T>() {
         @Override
         public void onChanged(Change<? extends T> c) {
+            values.setAll(listView.getSelectionModel().getSelectedItem());
+        }
+    };
 
-            ObservableList<T> selectedItems = listView.getSelectionModel().getSelectedItems();
-            if(selectedItems.size()>0){
-                if(multiple.get()){
-                	List<T> oldValues = new ArrayList<>(values);
-                	values.clear();
-                	for (T t : oldValues) {
-						if(!items.contains(t)) {
-							values.add(t);
-						}
-					}
-                	values.addAll(selectedItems);
-                    
-                }else{
-                    values.setAll(selectedItems.get(selectedItems.size()-1));
+    private ListChangeListener<T> checkedListener = new ListChangeListener<T>() {
+        @Override
+        public void onChanged(Change<? extends T> c) {
+            ObservableList<T> selectedItems = listView.getCheckedValues();
+            List<T> oldValues = new ArrayList<>(values);
+            values.clear();
+
+            for(T old : oldValues){
+                boolean is = items.contains(old);
+                if(!is) {
+                    values.add(old);
                 }
-            }else{
-                values.clear();
             }
+            values.addAll(selectedItems);
         }
     };
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.gridview;
 
 import javafx.scene.Node;
 import javafx.scene.control.skin.CellSkinBase;

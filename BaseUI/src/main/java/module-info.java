@@ -5,9 +5,9 @@ module com.xm2013.BaseUI {
     requires java.xml;
     requires javafx.base;
 
-    opens com.xm2013.jfx.control.ui to javafx.fxml,  javafx.graphics;
+    opens com.xm2013.jfx.ui to javafx.fxml,  javafx.graphics;
     opens com.xm2013.jfx.borderless to javafx.fxml, javafx.graphics;
-    exports com.xm2013.jfx.control.ui;
+    exports com.xm2013.jfx.ui;
     exports com.xm2013.jfx.borderless;
     exports com.xm2013.jfx.common;
     exports com.xm2013.jfx.control.svg;
@@ -24,7 +24,7 @@ module com.xm2013.BaseUI {
     exports com.xm2013.jfx.container;
     exports com.xm2013.jfx.control.scroll;
     exports com.xm2013.jfx.control.selector;
-    exports com.xm2013.jfx.control.data;
+    exports com.xm2013.jfx.control.gridview;
     exports com.xm2013.jfx.control.date;
     exports com.xm2013.jfx.control.pager;
     exports com.xm2013.jfx.control.listview;

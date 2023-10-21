@@ -29,6 +29,8 @@ import com.xm2013.jfx.control.base.*;
 import com.xm2013.jfx.control.button.XmButton;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.css.CssMetaData;
 import javafx.css.Styleable;
 import javafx.css.StyleableProperty;
@@ -163,6 +165,20 @@ public class XmTreeView<T> extends TreeView<T> {
     }
     public void setVisibleArrow(boolean visibleArrow) {
         this.visibleArrowProperty().set(visibleArrow);
+    }
+
+    /**
+     * 当使用XmCheckBoxListCell的时候，可通过此方法获取选中的数据
+     */
+    private ObservableList<T> checkedValues = FXCollections.observableArrayList();
+    public ObservableList<T> getCheckedValues() {
+        return checkedValues;
+    }
+    public void setCheckedValues(ObservableList<T> checkedValues) {
+        this.checkedValues.setAll(checkedValues);
+    }
+    public void addCheckedValue(T ...value){
+        this.checkedValues.addAll(value);
     }
 
     /*----------------------------css style ------------------*/

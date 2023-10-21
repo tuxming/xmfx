@@ -26,7 +26,7 @@ package com.xm2013.jfx.control.treeview;
 
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
-import com.xm2013.jfx.control.data.VirtualFlowScrollHelper;
+import com.xm2013.jfx.control.base.VirtualFlowScrollHelper;
 import javafx.geometry.Insets;
 import javafx.scene.control.skin.TreeViewSkin;
 import javafx.scene.layout.Background;

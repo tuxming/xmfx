@@ -22,7 +22,7 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.base;
 
 import com.xm2013.jfx.control.textfield.XmSimpleTextField;
 import javafx.scene.Node;

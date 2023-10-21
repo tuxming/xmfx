@@ -22,7 +22,7 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.ui;
+package com.xm2013.jfx.ui;
 
 import com.xm2013.jfx.borderless.BorderlessPane;
 import com.xm2013.jfx.borderless.BorderlessScene;

@@ -1,10 +1,33 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023 tuxming@sina.com / wechat: t5x5m5
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
 package com.xm2013.jfx.control.tableview;
 
 import com.xm2013.jfx.common.FxKit;
-import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
-import com.xm2013.jfx.control.data.VirtualFlowScrollHelper;
+import com.xm2013.jfx.control.base.VirtualFlowScrollHelper;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -57,28 +80,39 @@ public class XmTableViewSkin<S> extends TableViewSkin<S> {
     }
 
     private void updateHeaderCellColor(){
+
+        boolean isLight = control.getHueType().equals(HueType.LIGHT);
+
         Paint color = control.getHeaderBgColor();
         Paint borderRightColor = FxKit.getLightPaint(FxKit.getOpacityPaint(color, 1), 0.85);
-        Paint borderRightColor1 = FxKit.getLightPaint(
-                    control.getHueType().equals(HueType.LIGHT)?FxKit.getOpacityPaint(color, 1):color
+        Paint borderRightColor1 = FxKit.getLightPaint(isLight?FxKit.getOpacityPaint(color, 1):color
                 , 0.95);
         Paint borderColor = FxKit.derivePaint(color, -0.1);
         BorderWidths borderWidths = new BorderWidths(1);
 
         Background background = new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY));
-        Border border = new Border(new BorderStroke(
-                Color.TRANSPARENT, borderRightColor1, borderColor, Color.TRANSPARENT,
-                BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
-                CornerRadii.EMPTY, borderWidths, new Insets(0,-1,0,0)
-        ), new BorderStroke(
-                Color.TRANSPARENT, borderRightColor, borderColor, Color.TRANSPARENT,
-                BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE,
-                CornerRadii.EMPTY, borderWidths, new Insets(0,0,0,0)
-        ), new BorderStroke(
-                Color.TRANSPARENT, borderRightColor1, borderColor, Color.TRANSPARENT,
-                BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE,
-                CornerRadii.EMPTY, borderWidths, new Insets(0,1,0,0)
-        ));
+        Border border = null;
+        if(isLight){
+            border = new Border(new BorderStroke(
+                    Color.TRANSPARENT, borderRightColor1, borderColor, Color.TRANSPARENT,
+                    BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, borderWidths, new Insets(0,-1,0,0)
+            ), new BorderStroke(
+                    Color.TRANSPARENT, borderRightColor, borderColor, Color.TRANSPARENT,
+                    BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, borderWidths, new Insets(0,0,0,0)
+            ), new BorderStroke(
+                    Color.TRANSPARENT, borderRightColor1, borderColor, Color.TRANSPARENT,
+                    BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, borderWidths, new Insets(0,1,0,0)
+            ));
+        }else{
+            border = new Border(new BorderStroke(
+                    Color.TRANSPARENT, borderRightColor, borderColor, Color.TRANSPARENT,
+                    BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE, BorderStrokeStyle.NONE,
+                    CornerRadii.EMPTY, new BorderWidths(0.5), new Insets(0,0,0,0)
+            ));
+        }
 
         for (Node child : tableHeaderRow.getChildren()) {
             if(child.getStyleClass().contains("filler")){

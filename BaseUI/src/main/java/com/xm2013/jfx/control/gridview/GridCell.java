@@ -22,15 +22,17 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.gridview;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.css.PseudoClass;
 import javafx.scene.control.IndexedCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * A GridCell is created to represent items in the {@link GridView} 
@@ -42,6 +44,8 @@ import javafx.scene.control.TableView;
  * @see GridView
  */
 public class GridCell<T> extends IndexedCell<T> {
+
+    private PseudoClass selected = PseudoClass.getPseudoClass("selected");
     
     /**************************************************************************
      * 
@@ -79,6 +83,13 @@ public class GridCell<T> extends IndexedCell<T> {
 //                updateIndex(getIndex());
                 updateItem(item, item == null);
             }
+        });
+
+        addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+            boolean isSelected = !getPseudoClassStates().contains(selected);
+            pseudoClassStateChanged(selected, isSelected);
+            updateSelected(isSelected);
+            getGridView().setValue(getItem());
         });
 	}
 	

@@ -33,6 +33,7 @@ import com.xm2013.jfx.control.listview.XmListCell;
 import com.xm2013.jfx.control.listview.XmListView;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
@@ -104,6 +105,9 @@ public class TestListView extends Application {
         listView.setColorType(ColorType.danger());
 //        listView.setColorType(ColorType.other("#dd00dd"));
 //        listView.setPrefWidth(500);
+        listView.getCheckedValues().addListener((ListChangeListener<MyDMenu>) c -> System.out.println(listView.getCheckedValues()));
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> System.out.println("selectionMode:"+listView.getSelectionModel().getSelectedItem()));
+
 
         XmButton btn = new XmButton("Button");
         btn.setLayoutX(400);

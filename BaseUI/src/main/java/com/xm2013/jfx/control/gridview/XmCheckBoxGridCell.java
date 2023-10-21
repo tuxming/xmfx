@@ -1,38 +1,35 @@
 /*
- * Copyright (c) 2012, 2021, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * MIT License
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Copyright (c) 2023 tuxming@sina.com / wechat: t5x5m5
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  */
+package com.xm2013.jfx.control.gridview;
 
-package com.xm2013.jfx.control.listview;
-
-import com.xm2013.jfx.control.base.ColorType;
-import com.xm2013.jfx.control.checkbox.XmCheckBox;
 import com.xm2013.jfx.control.base.CellUtils;
+import com.xm2013.jfx.control.checkbox.XmCheckBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
@@ -40,7 +37,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -76,7 +73,7 @@ import javafx.util.StringConverter;
  * @param <T> The type of the elements contained within the ListView.
  * @since JavaFX 2.2
  */
-public class XmCheckBoxListCell<T> extends XmListCell<T> {
+public class XmCheckBoxGridCell<T> extends GridCell<T> {
 
     /* *************************************************************************
      *                                                                         *
@@ -86,7 +83,7 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
 
     /**
      * Creates a cell factory for use in ListView controls. When used in a
-     * ListView, the {@link XmCheckBoxListCell} is rendered with a CheckBox on the
+     * ListView, the {@link XmCheckBoxGridCell} is rendered with a CheckBox on the
      * left-hand side of the ListView, with the text related to the list item
      * taking up all remaining horizontal space.
      *
@@ -103,14 +100,14 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
      * @return A {@link Callback} that will return a ListCell that is able to
      *      work on the type of element contained within the ListView items list.
      */
-    public static <T> Callback<ListView<T>, ListCell<T>> forListView(
+    public static <T> Callback<GridView<T>, GridCell<T>> forGridView(
             final Callback<T, ObservableValue<Boolean>> getSelectedProperty) {
-        return forListView(getSelectedProperty, CellUtils.<T>defaultStringConverter());
+        return forGridView(getSelectedProperty, CellUtils.<T>defaultStringConverter());
     }
 
     /**
      * Creates a cell factory for use in ListView controls. When used in a
-     * ListView, the {@link XmCheckBoxListCell} is rendered with a CheckBox on the
+     * ListView, the {@link XmCheckBoxGridCell} is rendered with a CheckBox on the
      * left-hand side of the ListView, with the text related to the list item
      * taking up all remaining horizontal space.
      *
@@ -129,10 +126,10 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
      * @return A {@link Callback} that will return a ListCell that is able to
      *      work on the type of element contained within the ListView.
      */
-    public static <T> Callback<ListView<T>, ListCell<T>> forListView(
+    public static <T> Callback<GridView<T>, GridCell<T>> forGridView(
             final Callback<T, ObservableValue<Boolean>> getSelectedProperty,
             final StringConverter<T> converter) {
-        return list -> new XmCheckBoxListCell<T>(getSelectedProperty, converter);
+        return list -> new XmCheckBoxGridCell<T>(getSelectedProperty, converter);
     }
 
     /* *************************************************************************
@@ -157,7 +154,7 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
     /**
      * Creates a default CheckBoxListCell.
      */
-    public XmCheckBoxListCell() {
+    public XmCheckBoxGridCell() {
         this(null);
     }
 
@@ -167,7 +164,7 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
      * @param getSelectedProperty A {@link Callback} that will return an
      *      {@code ObservableValue<Boolean>} given an item from the ListView.
      */
-    public XmCheckBoxListCell(
+    public XmCheckBoxGridCell(
             final Callback<T, ObservableValue<Boolean>> getSelectedProperty) {
         this(getSelectedProperty, CellUtils.<T>defaultStringConverter());
     }
@@ -180,7 +177,7 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
      * @param converter A StringConverter that, given an object of type T, will
      *      return a String that can be used to represent the object visually.
      */
-    public XmCheckBoxListCell(
+    public XmCheckBoxGridCell(
             Callback<T, ObservableValue<Boolean>> getSelectedProperty,
             final StringConverter<T> converter) {
         this.getStyleClass().add("check-box-list-cell");
@@ -200,22 +197,22 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
 
         checkBox.selectedProperty().addListener((ob, ov, nv)->{
             T item = getItem();
-            XmListView listView = (XmListView) getListView();
+            GridView gridView = getGridView();
             if(nv){
-                boolean contains = listView.getCheckedValues().contains(item);
+                boolean contains = gridView.getCheckedValues().contains(item);
                 if(!contains){
-                    listView.addCheckedValue(item);
+                    gridView.addCheckedValue(item);
                 }
             }else{
-                listView.getCheckedValues().remove(item);
+                gridView.getCheckedValues().remove(item);
             }
         });
 
-        getPseudoClassStates().addListener((SetChangeListener<PseudoClass>) change -> setCheckBoxColor());
-        listViewProperty().addListener((observable, oldValue, newValue) -> setCheckBoxColor());
+//        getPseudoClassStates().addListener((SetChangeListener<PseudoClass>) change -> setCheckBoxColor());
+//        gridViewProperty().addListener((observable, oldValue, newValue) -> setCheckBoxColor());
 
         itemProperty().addListener((observable, oldValue, newValue) -> {
-            boolean checked = ((XmListView)getListView()).getCheckedValues().contains(newValue);
+            boolean checked = getGridView().getCheckedValues().contains(newValue);
             if(checked){
                 checkBox.setSelected(true);
             }
@@ -225,14 +222,13 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
         setGraphic(null);
     }
 
-    private void setCheckBoxColor(){
-        if(getPseudoClassStates().contains(selected)){
-            checkBox.setColorType(ColorType.other(Color.WHITE));
-        }else{
-            XmListView xtv = (XmListView) getListView();
-            checkBox.setColorType(xtv.getColorType());
-        }
-    }
+//    private void setCheckBoxColor(){
+//        if(getPseudoClassStates().contains(selected)){
+//            checkBox.setColorType(ColorType.other(Color.WHITE));
+//        }else{
+//            checkBox.setColorType(getGridView().getColorType());
+//        }
+//    }
 
     /* *************************************************************************
      *                                                                         *
@@ -320,7 +316,12 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
         if (! empty) {
             StringConverter<T> c = getConverter();
 
-            setGraphic(checkBox);
+            if(getGraphic()!=null){
+                Pane pane = new Pane(getGraphic(), checkBox);
+                setGraphic(pane);
+            }else{
+                setGraphic(checkBox);
+            }
             setText(c != null ? c.toString(item) : (item == null ? "" : item.toString()));
 
         } else {

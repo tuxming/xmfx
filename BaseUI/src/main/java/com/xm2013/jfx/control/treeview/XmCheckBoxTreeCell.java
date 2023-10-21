@@ -24,10 +24,9 @@
  */
 package com.xm2013.jfx.control.treeview;
 
+import com.xm2013.jfx.control.base.CellUtils;
 import com.xm2013.jfx.control.base.ColorType;
-import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.checkbox.XmCheckBox;
-import com.xm2013.jfx.control.data.CellUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

@@ -25,23 +25,18 @@
 package com.xm2013.jfx.control.treeview;
 
 import com.xm2013.jfx.common.FxKit;
-import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.icon.XmIcon;
-import com.xm2013.jfx.control.listview.XmCheckBoxListCell;
-import com.xm2013.jfx.control.listview.XmListView;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.WeakInvalidationListener;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -250,16 +245,6 @@ public class XmTreeCell<T> extends TreeCell<T> {
         }
 
         TreeView<T> tv = getTreeView();
-        if(this instanceof XmCheckBoxTreeCell){
-            XmCheckBoxTreeCell cell = (XmCheckBoxTreeCell) this;
-
-            if(tv instanceof XmTreeView){
-                cell.getCheckBox().setColorType(((XmTreeView<T>) tv).getColorType());
-                cell.getCheckBox().sizeTypeProperty().bind(((XmTreeView<T>) tv).sizeTypeProperty());
-            }
-
-        }
-
         if(tv instanceof  XmTreeView){
             XmTreeView xtv = (XmTreeView) tv;
             double fontSize = 14;

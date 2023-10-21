@@ -91,6 +91,7 @@ public class SelectorTreePopup<T> extends SelectorPopup<T>{
         treeView.setColorType(colorType);
         treeView.setHueType(hueType);
         treeView.setSizeType(sizeType);
+        treeView.setVisibleArrow(true);
 
         treeView.setCellFactory(new Callback<TreeView<T>, TreeCell<T>>() {
             @Override

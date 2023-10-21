@@ -22,23 +22,15 @@
  * SOFTWARE.
  *
  */
-package com.xm2013.jfx.control.data;
+package com.xm2013.jfx.control.gridview;
 
-import com.xm2013.jfx.common.FxKit;
-import com.xm2013.jfx.control.base.HueType;
+import com.xm2013.jfx.control.base.VirtualFlowScrollHelper;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.WeakListChangeListener;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.skin.VirtualContainerBase;
 import javafx.scene.control.skin.VirtualFlow;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.SVGPath;
 
 public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, GridRow<T>> {
 

@@ -83,38 +83,6 @@ public class XmListCell<T> extends ListCell<T> {
             updateSkin(0);
         });
 
-//        addEventFilter(MouseEvent.MOUSE_CLICKED, e->{
-//
-//            ListView<T> listView = getListView();
-//            if(clickAnimate == null){
-//                ColorType colorType = null;
-//                HueType hueType = null;
-//                if(listView instanceof XmListView){
-//                    colorType = ((XmListView<T>) listView).getColorType();
-//                    hueType = ((XmListView<T>) listView).getHueType();
-//                }else{
-//                    colorType = ColorType.primary();
-//                    hueType = HueType.LIGHT;
-//                }
-//                clickAnimate = new ClickRipperAnimate(this, colorType, hueType);
-//                clickAnimate.setNodePosition((node, width, height, x, y) -> {
-////                    layoutInArea(node, x, y, width, height, 0, HPos.CENTER, VPos.CENTER);
-//                    node.setManaged(false);
-//                    node.setLayoutY(x);
-//                    node.setLayoutY(y);
-//                });
-//                clickAnimate.setRemoveNode(node -> {
-//                    getChildren().remove(node);
-//                });
-//                clickAnimate.setAddNode(node -> {
-//                    getChildren().add(node);
-//                });
-//            }
-//
-//            clickAnimate.setPoint(e.getX(), e.getY()).play();
-//
-//        });
-
         ObservableSet<PseudoClass> pseudoClassStates = getPseudoClassStates();
         pseudoClassStates.addListener((SetChangeListener<PseudoClass>) change -> {
 //            System.out.println(getText()+": "+pseudoClassStates);
@@ -218,23 +186,6 @@ public class XmListCell<T> extends ListCell<T> {
         }
 
         ListView<T> tv = listViewProperty().get();
-        if(this instanceof XmCheckBoxListCell){
-            XmCheckBoxListCell cell = (XmCheckBoxListCell) this;
-//            XmListView<T> tv1 = (XmListView<T>) tv;
-//            HueType hue = tv1.getHueType();
-//            if(HueType.LIGHT.equals(hue)){
-//                cell.getCheckBox().setColorType(tv1.getColorType());
-//            }else{
-//                cell.getCheckBox().setColorType(ColorType.other(Color.WHITE));
-//            }
-
-            if(tv instanceof  XmListView){
-                cell.getCheckBox().colorTypeProperty().bind(((XmListView<T>) tv).colorTypeProperty());
-                cell.getCheckBox().sizeTypeProperty().bind(((XmListView<T>) tv).sizeTypeProperty());
-            }
-
-
-        }
 
         if(tv instanceof  XmListView){
             double fontSize = 14;
