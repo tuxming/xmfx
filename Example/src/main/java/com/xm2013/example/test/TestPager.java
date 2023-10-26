@@ -27,8 +27,10 @@ package com.xm2013.example.test;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.button.XmButton;
+import com.xm2013.jfx.control.button.XmNodeButton;
 import com.xm2013.jfx.control.pager.XmPager;
 import com.xm2013.jfx.control.scroll.XmScrollBar;
+import com.xm2013.jfx.control.textfield.XmSimpleTextField;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -43,6 +45,9 @@ public class TestPager extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        XmSimpleTextField stf = new XmSimpleTextField();
+
         Pane pane = new Pane();
 
         XmPager pager = new XmPager(10000);

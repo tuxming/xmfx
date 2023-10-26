@@ -218,6 +218,8 @@ public class XmCheckBoxListCell<T> extends XmListCell<T> {
             boolean checked = ((XmListView)getListView()).getCheckedValues().contains(newValue);
             if(checked){
                 checkBox.setSelected(true);
+            }else{
+                checkBox.setSelected(false);
             }
         });
 

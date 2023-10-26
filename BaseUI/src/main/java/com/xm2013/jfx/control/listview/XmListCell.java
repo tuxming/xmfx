@@ -240,10 +240,12 @@ public class XmListCell<T> extends ListCell<T> {
         }else if(status == 1){
             if(HueType.LIGHT.equals(hueType)){
                 fontColor = Color.color(0.2, 0.2,0.2);
+                bgColor = FxKit.getOpacityPaint(paint, 0.08);
             }else{
                 fontColor = Color.color(1, 1, 1);
+                bgColor = FxKit.getOpacityPaint(paint, 0.14);
             }
-            bgColor = FxKit.getOpacityPaint(paint, 0.08);
+
         }else if(status == 2){
             fontColor = Color.WHITE;
             bgColor = paint;

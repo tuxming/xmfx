@@ -115,6 +115,7 @@ public class XmCheckBoxSkin<T> extends SelectableTextSkin {
         if(control.isDisable()){
             control.setOpacity(0.65);
         }
+
         if(this.control.getValue()!=null){
             this.control.setText(this.control.getConverter().toString(this.control.getValue()));
         }
@@ -518,7 +519,11 @@ public class XmCheckBoxSkin<T> extends SelectableTextSkin {
 
     @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        double width = textPane.prefWidth(-1)+gap+box.prefWidth(-1);
+        double width = box.prefWidth(-1);
+
+        if(control.getText()!=null && control.getText().trim().length()>0){
+            width += textPane.prefWidth(-1)+gap;
+        }
 
         Insets margin = control.getMargin();
         if(margin!=null){
@@ -557,34 +562,42 @@ public class XmCheckBoxSkin<T> extends SelectableTextSkin {
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
 //        super.layoutChildren(contentX, contentY, contentWidth, contentHeight);
 
-        double height = control.prefHeight(-1);
+        if(control.getText()!=null && control.getText().trim().length()>0){
+            double height = control.prefHeight(-1);
 
-        double boxX, boxY, boxWidth = box.prefWidth(-1), boxHeight = box.prefHeight(-1),
-               textPaneX, textPaneWidth = textPane.prefWidth(-1), textPaneY,  textPaneHeight = textPane.prefHeight(-1);
+            double boxX, boxY, boxWidth = box.prefWidth(-1), boxHeight = box.prefHeight(-1),
+                    textPaneX, textPaneWidth = textPane.prefWidth(-1), textPaneY,  textPaneHeight = textPane.prefHeight(-1);
 
 
-        Insets margin = control.getMargin();
-        Insets padding = control.getPadding();
+            Insets margin = control.getMargin();
+            Insets padding = control.getPadding();
 
-        if(margin == null){
-            margin = Insets.EMPTY;
-        }
-        if(padding == null){
-            padding = Insets.EMPTY;
-        }
+            if(margin == null){
+                margin = Insets.EMPTY;
+            }
+            if(padding == null){
+                padding = Insets.EMPTY;
+            }
 
-        boxX = margin.getLeft() + padding.getLeft();
-        boxY = (height - boxHeight)/2;
+            boxX = margin.getLeft() + padding.getLeft();
+            boxY = (height - boxHeight)/2;
 
-        textPaneX = boxX + boxWidth +gap;
-        textPaneY = (height - textPaneHeight)/2;
+            textPaneX = boxX + boxWidth +gap;
+            textPaneY = (height - textPaneHeight)/2;
 
 //        System.out.println(String.format("control(w,h: %f, %f), content(w,h:%f, %f), box(w,h, x, y: %f, %f, %f, %f), text(w, h, x, y: %f, %f, %f, %f)"
 //                , width, height, contentWidth, contentHeight, boxWidth, boxHeight, boxX, boxY, textPaneWidth, textPaneHeight, textPaneX, textPaneY));
 
 
-        layoutInArea(box, boxX, boxY, boxWidth, boxHeight, 0, HPos.CENTER, VPos.CENTER);
-        layoutInArea(textPane, textPaneX, textPaneY, textPaneWidth, textPaneHeight, 0, HPos.CENTER, VPos.CENTER);
+            layoutInArea(box, boxX, boxY, boxWidth, boxHeight, 0, HPos.CENTER, VPos.CENTER);
+            layoutInArea(textPane, textPaneX, textPaneY, textPaneWidth, textPaneHeight, 0, HPos.CENTER, VPos.CENTER);
+        }else{
+            double boxWidth = box.prefWidth(-1), boxHeight = box.prefHeight(-1),
+                boxX = (contentWidth - boxWidth) / 2, boxY = (contentHeight - boxHeight) /2;
+            layoutInArea(box, boxX, boxY, boxWidth, boxHeight, 0, HPos.CENTER, VPos.CENTER);
+        }
+
+
 
     }
 

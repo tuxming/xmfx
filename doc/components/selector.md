@@ -1,4 +1,4 @@
-# 下拉选择框
+# 下拉选择框(XmSelector)
 
 ![selector](../images/selector.gif)
 
@@ -142,7 +142,7 @@ selector.setCellFactory(new SelectorCellFactory<File>() {
 
 ```java
 SelectorConvert<MySelectorItem> convert = new SelectorConvert<MySelectorItem>() {
-    //需要实现这个方法，用于获取子节点，不然无法构建下来菜单
+    //需要实现这个方法，用于获取子节点，不然无法构建下拉菜单
     @Override
     public List<MySelectorItem> getChildren(MySelectorItem item) {
         List<MySelectorItem> nc = new ArrayList<>();

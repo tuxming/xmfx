@@ -1,4 +1,4 @@
-# 按钮
+# 按钮(XmButton)
 
 ![button](../images/button.gif)
 

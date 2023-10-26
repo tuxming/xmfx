@@ -26,6 +26,8 @@ package com.xm2013.jfx.control.gridview;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
 import javafx.scene.control.IndexedCell;
@@ -46,7 +48,12 @@ import javafx.scene.input.MouseEvent;
 public class GridCell<T> extends IndexedCell<T> {
 
     private PseudoClass selected = PseudoClass.getPseudoClass("selected");
-    
+
+    private BooleanProperty selectedState = new SimpleBooleanProperty(false);
+    public BooleanProperty selectedStateProperty(){
+        return selectedState;
+    }
+
     /**************************************************************************
      * 
      * Constructors
@@ -85,30 +92,55 @@ public class GridCell<T> extends IndexedCell<T> {
             }
         });
 
-        addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
-            boolean isSelected = !getPseudoClassStates().contains(selected);
-            pseudoClassStateChanged(selected, isSelected);
-            updateSelected(isSelected);
-            getGridView().setValue(getItem());
+        setOnMouseClicked(e -> {
+            selectedState.set(!selectedStateProperty().get());
+            GridView<T> gv = getGridView();
+            gv.setValue(getItem());
         });
+
+        selectedStateProperty().addListener((ob, ov, nv)->{
+            GridView<T> gv = getGridView();
+
+            if(nv){
+                GridCell<T> selectedCell = gv.selectedCell;
+                if(selectedCell!=null){
+                    selectedCell.selectedStateProperty().set(false);
+                }
+                gv.selectedCell = this;
+
+            }
+
+            pseudoClassStateChanged(selected, nv);
+
+        });
+
+        init();
 	}
-	
-	/**
+
+    public void init(){
+
+    }
+
+    /**
 	 * {@inheritDoc}
 	 */
 	@Override protected Skin<?> createDefaultSkin() {
         return new GridCellSkin<>(this);
     }
-	
-	
-	
-	/**************************************************************************
+
+//    @Override
+//    protected void updateItem(T item, boolean empty) {
+//        super.updateItem(item, empty);
+//        System.out.println(this+","+selectedStateProperty().get());
+//    }
+
+    /**************************************************************************
      * 
      * Properties
      * 
      **************************************************************************/
-	
-	/**
+
+    /**
      * The {@link GridView} that this GridCell exists within.
      * @return SimpleObjectProperty
      */

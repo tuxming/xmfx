@@ -1,4 +1,4 @@
-# Tag
+# Tag(XmTag)
 
 ![tag](../images/tag.gif)
 

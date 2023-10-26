@@ -81,6 +81,13 @@ public class GridRowSkin<T> extends CellSkinBase<GridRow<T>> {
                     }
                     cell.updateIndex(-1);
                     cell.updateIndex(cellIndex);
+
+                    if(gridView.getValue()!=null && gridView.getValue().equals(cell.getItem())){
+                        cell.selectedStateProperty().set(true);
+                    }else{
+                        cell.selectedStateProperty().set(false);
+                    }
+
                 }
                 // we are going out of bounds -> exist the loop
                 else { break; }

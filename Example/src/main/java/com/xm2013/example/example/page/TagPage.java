@@ -39,6 +39,7 @@ import com.xm2013.jfx.control.textfield.XmTextField;
 import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
@@ -51,7 +52,7 @@ public class TagPage extends BasePage{
     private ObservableMap<String, String> javaCodes = FXCollections.observableHashMap();
     private ObservableMap<String, String> cssCodes = FXCollections.observableHashMap();
     private String css;
-    private XmTextField labelField;
+    private XmTextField colorField;
 
     public TagPage(){
         this.setTitle("Tag", new XmFontIcon("\ue751"));
@@ -211,12 +212,12 @@ public class TagPage extends BasePage{
 
                 reset();
                 if(item.getLabel().equals("other")){
-                    labelField.setVisible(true);
-                    labelField.setManaged(true);
-                    tag.setColorType(ColorType.other(labelField.getText()));
+                    colorField.setVisible(true);
+                    colorField.setManaged(true);
+                    tag.setColorType(ColorType.other(colorField.getText()));
                 }else{
-                    labelField.setVisible(false);
-                    labelField.setManaged(false);
+                    colorField.setVisible(false);
+                    colorField.setManaged(false);
 
                     tag.setColorType(item);
 
@@ -242,23 +243,25 @@ public class TagPage extends BasePage{
      * 设置自定义颜色
      */
     private void setMyDefineColor(){
-        labelField = new XmTextField("自定义颜色");
-        labelField.setLabel("自定义颜色：");
-        labelField.setVisible(false);
-        labelField.setManaged(false);
-        labelField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
+        colorField = new XmTextField("自定义颜色");
+        colorField.setLabel("自定义颜色：");
+        colorField.setVisible(false);
+        colorField.setManaged(false);
+        colorField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
 //        labelField.setLabelWidth(115);
-        labelField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
-        labelField.setSizeType(SizeType.SMALL);
+        colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
+        colorField.setSizeType(SizeType.SMALL);
 
-        labelField.textProperty().addListener((ob, ov, nv) -> {
-            reset();
-            tag.setColorType(ColorType.other(labelField.getText().trim()));
-            javaCodes.put("setMyColor", "tag.setColorType(ColorType.other(\""+labelField.getText()+"\"));");
-            cssCodes.put("-fx-type-color:", labelField.getText().trim()+";");
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                reset();
+                tag.setColorType(ColorType.other(colorField.getText().trim()));
+                javaCodes.put("setMyColor", "tag.setColorType(ColorType.other(\""+ colorField.getText()+"\"));");
+                cssCodes.put("-fx-type-color:", colorField.getText().trim()+";");
+            }
         });
 
-        this.addActionComponent(labelField);
+        this.addActionComponent(colorField);
     }
 
     /**

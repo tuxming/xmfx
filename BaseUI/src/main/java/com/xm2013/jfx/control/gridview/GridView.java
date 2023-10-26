@@ -25,7 +25,10 @@
 package com.xm2013.jfx.control.gridview;
 
 import com.xm2013.jfx.common.FxKit;
+import com.xm2013.jfx.control.base.CssKeys;
+import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.XmControl;
+import com.xm2013.jfx.control.listview.XmListView;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.WeakInvalidationListener;
@@ -36,6 +39,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.WeakListChangeListener;
 import javafx.css.*;
 import javafx.css.converter.BooleanConverter;
+import javafx.css.converter.EnumConverter;
 import javafx.scene.AccessibleAttribute;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -96,6 +100,8 @@ import java.util.List;
  * @see GridCell
  */
 public class GridView<T> extends XmControl {
+
+    protected GridCell<T> selectedCell;
 
     /**************************************************************************
      * 
@@ -466,7 +472,7 @@ public class GridView<T> extends XmControl {
     }
 
     private ObjectProperty<T> value = new SimpleObjectProperty<>();
-    public Object getValue() {
+    public T getValue() {
         return value.get();
     }
     public ObjectProperty<T> valueProperty() {
@@ -752,5 +758,8 @@ public class GridView<T> extends XmControl {
             focus(newValueIndex);
         }
     }
+
+
+
 
 }

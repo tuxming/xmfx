@@ -28,15 +28,19 @@ import com.xm2013.jfx.control.base.VirtualFlowScrollHelper;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.WeakListChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.skin.VirtualContainerBase;
 import javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, GridRow<T>> {
 
     private VirtualFlow<GridRow<T>> flow;
 
-    private ScrollBar vbar;
     private GridView<T> control;
 
     private final ListChangeListener<T> gridViewItemsListener = change -> {
@@ -66,6 +70,7 @@ public class GridViewSkin<T> extends VirtualContainerBase<GridView<T>, GridRow<T
         VirtualFlowScrollHelper helper = new VirtualFlowScrollHelper(flow);
         helper.colorTypeProperty().bind(this.control.colorTypeProperty());
 
+        control.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         // Register listeners
         registerChangeListener(control.itemsProperty(), e -> updateGridViewItems());
         registerChangeListener(control.cellFactoryProperty(), e ->  getFlow().recreateCells());

@@ -25,6 +25,7 @@
 package com.xm2013.jfx.control.gridview;
 
 import com.xm2013.jfx.control.base.CellUtils;
+import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.checkbox.XmCheckBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -36,7 +37,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
@@ -138,7 +138,7 @@ public class XmCheckBoxGridCell<T> extends GridCell<T> {
      *                                                                         *
      **************************************************************************/
 
-    private final XmCheckBox checkBox;
+    private ObjectProperty<XmCheckBox> checkBoxProperty;
     private static PseudoClass selected = PseudoClass.getPseudoClass("selected");
 
     private ObservableValue<Boolean> booleanProperty = new SimpleBooleanProperty();
@@ -185,17 +185,22 @@ public class XmCheckBoxGridCell<T> extends GridCell<T> {
         setSelectedStateCallback(getSelectedProperty);
         setConverter(converter);
 
-        this.checkBox = new XmCheckBox();
-        this.checkBox.setMouseTransparent(true);
+        XmCheckBox checkbox = new XmCheckBox();
+        checkBoxProperty().set(checkbox);
+        checkbox.setSizeType(SizeType.SMALL);
+        checkbox.setMouseTransparent(true);
 
         setAlignment(Pos.CENTER_LEFT);
         setContentDisplay(ContentDisplay.LEFT);
 
-        addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
-            checkBox.setSelected(!checkBox.isSelected());
+        setOnMouseClicked( e -> {
+            boolean selected1 = !checkbox.isSelected();
+            checkbox.setSelected(selected1);
+            selectedStateProperty().set(selected1);
+            e.consume();
         });
 
-        checkBox.selectedProperty().addListener((ob, ov, nv)->{
+        checkbox.selectedProperty().addListener((ob, ov, nv)->{
             T item = getItem();
             GridView gridView = getGridView();
             if(nv){
@@ -212,17 +217,27 @@ public class XmCheckBoxGridCell<T> extends GridCell<T> {
 //        gridViewProperty().addListener((observable, oldValue, newValue) -> setCheckBoxColor());
 
         itemProperty().addListener((observable, oldValue, newValue) -> {
+
+            if(newValue == null) return;
+
             boolean checked = getGridView().getCheckedValues().contains(newValue);
             if(checked){
-                checkBox.setSelected(true);
+                checkBoxProperty.get().setSelected(true);
+            }else{
+                checkBoxProperty.get().setSelected(false);
             }
         });
+
+//        selectedStateProperty().addListener((ob, ov, nv)->{
+//            System.out.println("11+"+nv);
+//            checkBox.setSelected(nv);
+//        });
 
         // by default the graphic is null until the cell stops being empty
         setGraphic(null);
     }
 
-//    private void setCheckBoxColor(){
+    //    private void setCheckBoxColor(){
 //        if(getPseudoClassStates().contains(selected)){
 //            checkBox.setColorType(ColorType.other(Color.WHITE));
 //        }else{
@@ -237,7 +252,13 @@ public class XmCheckBoxGridCell<T> extends GridCell<T> {
      **************************************************************************/
 
     public XmCheckBox getCheckBox(){
-        return checkBox;
+        return checkBoxProperty().get();
+    }
+    public ObjectProperty<XmCheckBox> checkBoxProperty(){
+        if(checkBoxProperty==null){
+            checkBoxProperty = new SimpleObjectProperty<>();
+        }
+        return checkBoxProperty;
     }
 
     // --- converter
@@ -317,12 +338,12 @@ public class XmCheckBoxGridCell<T> extends GridCell<T> {
             StringConverter<T> c = getConverter();
 
             if(getGraphic()!=null){
-                Pane pane = new Pane(getGraphic(), checkBox);
+                Pane pane = new Pane(getGraphic(), checkBoxProperty().get());
                 setGraphic(pane);
             }else{
-                setGraphic(checkBox);
+                setGraphic(checkBoxProperty().get());
             }
-            setText(c != null ? c.toString(item) : (item == null ? "" : item.toString()));
+//            setText(c != null ? c.toString(item) : (item == null ? "" : item.toString()));
 
         } else {
             setGraphic(null);

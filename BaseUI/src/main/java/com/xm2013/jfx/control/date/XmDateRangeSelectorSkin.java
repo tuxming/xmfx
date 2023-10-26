@@ -169,6 +169,16 @@ public class XmDateRangeSelectorSkin extends SkinBase {
      * 更新皮肤的监听
      */
     private void skinChange(){
+        focusLine.setStroke(control.getColorType().getPaint());
+
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(2);
+        shadow.setOffsetX(0);
+        shadow.setColor(control.getColorType().getFxColor());
+        shadow.setRadius(1);
+        focusLine.setEffect(shadow);
+        focusLine.setVisible(false);
+
         skins.clear();
         updateSkin(1, 0);
     }

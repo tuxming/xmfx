@@ -263,12 +263,12 @@ public class XmTableView<S> extends TableView<S> {
                         HueType.LIGHT, true) {
                     @Override
                     public boolean isSettable(XmTableView styleable) {
-                        return false;
+                        return styleable.hueType == null || !styleable.hueType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<HueType> getStyleableProperty(XmTableView styleable) {
-                        return null;
+                        return (StyleableProperty<HueType>) styleable.hueTypeProperty();
                     }
                 };
 

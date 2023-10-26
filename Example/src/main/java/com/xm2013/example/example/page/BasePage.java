@@ -75,7 +75,7 @@ public class BasePage extends ScrollPane {
         componentPane.setStyle("-fx-padding: 0px 25px;");
         componentSettingPane = new VBox();
         componentSettingPane.setFillWidth(true);
-        componentSettingPane.setAlignment(Pos.CENTER_LEFT);
+        componentSettingPane.setAlignment(Pos.TOP_LEFT);
         componentSettingPane.setSpacing(10);
 
         componentShowPane = new VBox();

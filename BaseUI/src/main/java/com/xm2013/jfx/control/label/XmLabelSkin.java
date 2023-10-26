@@ -207,6 +207,7 @@ public class XmLabelSkin extends SelectableTextSkin {
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
 
         ContentDisplay display = this.control.getContentDisplay();
+
         XmAlignment align = control.getAlignment();
 
         double width = contentWidth,

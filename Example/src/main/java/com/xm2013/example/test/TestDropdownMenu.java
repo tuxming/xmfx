@@ -28,35 +28,22 @@ import com.xm2013.jfx.common.CallBack;
 import com.xm2013.jfx.control.base.ClickAnimateType;
 import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.RoundType;
-import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.button.XmButton;
-import com.xm2013.jfx.control.gridview.GridCell;
-import com.xm2013.jfx.control.gridview.GridView;
-import com.xm2013.jfx.control.dropdown.DropdownMenu;
+import com.xm2013.jfx.control.dropdown.XmDropdownMenu;
 import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
 import com.xm2013.jfx.control.dropdown.TriggerType;
-import com.xm2013.jfx.control.gridview.XmCheckBoxGridCell;
 import com.xm2013.jfx.control.icon.XmFontIcon;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-
-import java.io.File;
-import java.util.Random;
 
 public class TestDropdownMenu extends Application {
 
@@ -92,7 +79,7 @@ public class TestDropdownMenu extends Application {
                 new DropdownMenuItem("子节点2-4")
         );
 
-        DropdownMenu dropdownMenu = new DropdownMenu("11111aa");
+        XmDropdownMenu dropdownMenu = new XmDropdownMenu("11111aa");
         dropdownMenu.addItems(group1, group2);
         dropdownMenu.setUseGroup(true);
         dropdownMenu.setColorType(ColorType.primary());

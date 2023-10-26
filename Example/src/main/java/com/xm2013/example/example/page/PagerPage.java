@@ -41,6 +41,7 @@ import com.xm2013.jfx.control.textfield.XmTextField;
 import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.IndexedCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
@@ -57,7 +58,7 @@ public class PagerPage extends BasePage{
     private XmTextField colorField;
 
     public PagerPage(){
-        this.setTitle("分页器（XmPager）", new XmFontIcon("\ue6fc"));
+        this.setTitle("分页器（XmPager）", new XmFontIcon("\ue6fd"));
         this.setComponentTitle("属性");
 
         pager = new XmPager(13420);
@@ -248,10 +249,12 @@ public class PagerPage extends BasePage{
         colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
         colorField.setSizeType(SizeType.SMALL);
 
-        colorField.textProperty().addListener((ob, ov, nv) -> {
-            pager.setColorType(ColorType.other(colorField.getText().trim()));
-            javaCodes.put("setMyColor", "pager.setColorType(ColorType.other(\""+ colorField.getText()+"\"));");
-            cssCodes.put("-fx-type-color:", colorField.getText().trim()+";");
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                pager.setColorType(ColorType.other(colorField.getText().trim()));
+                javaCodes.put("setMyColor", "pager.setColorType(ColorType.other(\""+ colorField.getText()+"\"));");
+                cssCodes.put("-fx-type-color:", colorField.getText().trim()+";");
+            }
         });
 
         this.addActionComponent(colorField);

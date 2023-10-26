@@ -583,7 +583,6 @@ public class XmNodeButton extends Region {
      * 节点初始初始颜色，如果是文字，则是文字的初始颜色
      * 0: 默认为灰色
      * 1：主题色
-     *
      */
     private IntegerProperty textStyle;
     public int getTextStyle() {

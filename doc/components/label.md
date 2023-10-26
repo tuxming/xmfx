@@ -1,4 +1,4 @@
-# 可选标签
+# 可选标签(XmLabel)
 
 ![label](../images/label.gif)
 

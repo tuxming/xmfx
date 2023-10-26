@@ -24,34 +24,21 @@
  */
 package com.xm2013.example.test;
 
-import com.xm2013.jfx.common.CallBack;
-import com.xm2013.jfx.control.base.ClickAnimateType;
-import com.xm2013.jfx.control.base.ColorType;
-import com.xm2013.jfx.control.base.RoundType;
-import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.button.XmButton;
-import com.xm2013.jfx.control.dropdown.DropdownMenu;
-import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
-import com.xm2013.jfx.control.dropdown.TriggerType;
+import com.xm2013.jfx.control.date.XmDateRangeSelector;
 import com.xm2013.jfx.control.gridview.GridCell;
 import com.xm2013.jfx.control.gridview.GridView;
 import com.xm2013.jfx.control.gridview.XmCheckBoxGridCell;
-import com.xm2013.jfx.control.icon.XmFontIcon;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -81,15 +68,16 @@ public class TestGridView extends Application {
         myGrid.setCellFactory(new Callback<GridView<Color>, GridCell<Color>>() {
             public GridCell<Color> call(GridView<Color> gridView) {
                 return new XmCheckBoxGridCell<>(){
-                    private boolean isSetSkin = false;
+                    @Override
+                    public void init() {
+                        checkBoxProperty().addListener((ob,ov, nv)->{
+                            nv.setSelectedColor(Color.WHITE);
+                            nv.setStyle("-fx-padding: 6 0 0 6");
+                        });
+                    }
+
                     @Override
                     public void updateItem(Color item, boolean empty) {
-
-                        if(!isSetSkin){
-                            getCheckBox().setColorType(ColorType.other("#ffffff"));
-                            getCheckBox().setSizeType(SizeType.SMALL);
-                            isSetSkin = false;
-                        }
 
                         if (empty) {
                             setGraphic(null);
@@ -127,14 +115,8 @@ public class TestGridView extends Application {
             @Override
             public GridCell<File> call(GridView<File> param) {
                 return new XmCheckBoxGridCell<>(){
-                    private boolean isSetSkin = false;
                     @Override
                     public void updateItem(File item, boolean empty) {
-
-                        if(!isSetSkin){
-                            getCheckBox().setSizeType(SizeType.SMALL);
-                            isSetSkin = true;
-                        }
 
                         if (empty || item == null) {
                             setText(null);

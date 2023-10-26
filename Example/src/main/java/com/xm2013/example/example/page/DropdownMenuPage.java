@@ -26,11 +26,10 @@ package com.xm2013.example.example.page;
 
 import com.xm2013.example.test.MyDMenu;
 import com.xm2013.jfx.control.base.*;
-import com.xm2013.jfx.control.button.XmButton;
 import com.xm2013.jfx.control.checkbox.XmCheckBox;
 import com.xm2013.jfx.control.checkbox.XmToggleGroup;
 import com.xm2013.jfx.control.dropdown.TriggerType;
-import com.xm2013.jfx.control.dropdown.DropdownMenu;
+import com.xm2013.jfx.control.dropdown.XmDropdownMenu;
 import com.xm2013.jfx.control.dropdown.DropdownMenuItem;
 import com.xm2013.jfx.control.selector.SelectorCellFactory;
 import com.xm2013.jfx.control.selector.SelectorConvert;
@@ -43,15 +42,11 @@ import com.xm2013.jfx.control.label.XmLabel;
 import javafx.collections.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.IndexedCell;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -59,7 +54,7 @@ import java.util.Base64;
 public class DropdownMenuPage extends BasePage {
 
     private XmTextField labelField;
-    private DropdownMenu dropdownMenu;
+    private XmDropdownMenu dropdownMenu;
 
     private ObservableMap<String, String> javaCodes = FXCollections.observableHashMap();
     private ObservableMap<String, String> cssCodes = FXCollections.observableHashMap();
@@ -445,10 +440,12 @@ public class DropdownMenuPage extends BasePage {
         colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
         colorField.setSizeType(SizeType.SMALL);
 
-        colorField.textProperty().addListener((ob, ov, nv) -> {
-            dropdownMenu.setColorType(ColorType.other(colorField.getText().trim()));
-            javaCodes.put("setMyColor", "dropdownMenu.setColorType(ColorType.other(\""+colorField.getText()+"\"));");
-            cssCodes.put("-fx-type-color:", colorField.getText().trim()+";");
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                dropdownMenu.setColorType(ColorType.other(colorField.getText().trim()));
+                javaCodes.put("setMyColor", "dropdownMenu.setColorType(ColorType.other(\""+colorField.getText()+"\"));");
+                cssCodes.put("-fx-type-color:", colorField.getText().trim()+";");
+            }
         });
 
         this.addActionComponent(colorField);
@@ -595,7 +592,7 @@ public class DropdownMenuPage extends BasePage {
                 new DropdownMenuItem("子节点2-4")
         );
 
-        dropdownMenu = new DropdownMenu("11111aa");
+        dropdownMenu = new XmDropdownMenu("11111aa");
         dropdownMenu.getStyleClass().add("my-dmenu");
         dropdownMenu.addItems(group1, group2);
         this.setShowComponent(dropdownMenu);

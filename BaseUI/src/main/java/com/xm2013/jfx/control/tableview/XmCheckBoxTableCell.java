@@ -41,6 +41,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -239,8 +240,6 @@ public class XmCheckBoxTableCell<S,T> extends XmTableCell<S,T> {
         this.checkBox = new XmCheckBox();
         this.checkBox.setSizeType(SizeType.SMALL);
 
-        setStyle("-fx-padding: 0 0 0 10");
-
         // by default the graphic is null until the cell stops being empty
         setGraphic(null);
 
@@ -254,10 +253,10 @@ public class XmCheckBoxTableCell<S,T> extends XmTableCell<S,T> {
 //        final CssMetaData prop = CssMetaData.getCssMetaData(alignmentProperty());
 //        prop.set(this, Pos.CENTER);
 
-        tableRowProperty().addListener((ob, ov, nv)->{
-            nv.getPseudoClassStates().addListener((SetChangeListener<PseudoClass>) change -> setTextColor());
+        tableRowProperty().addListener((ob, ov, newRow)->{
+            newRow.getPseudoClassStates().addListener((SetChangeListener<PseudoClass>) change -> setTextColor());
 
-            setAlignment(Pos.CENTER_RIGHT);
+            setAlignment(Pos.CENTER);
             setTextColor();
             XmTableView tableView = (XmTableView) getTableView();
             Paint borderColor = tableView.getBorderColor();
@@ -270,11 +269,21 @@ public class XmCheckBoxTableCell<S,T> extends XmTableCell<S,T> {
                             new Insets(0, 0,0,0)
                     )));
 
-            nv.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+            newRow.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
                 checkBox.setSelected(!checkBox.isSelected());
             });
+
+            newRow.itemProperty().addListener((ob1, ov1, nv1)->{
+                if(nv1 == null)
+                    return;
+//                System.out.println(nv1.toString()+":"+tv.getCheckedValues()+":"+tv.getCheckedValues().contains(nv));
+                checkBox.setSelected(tableView.getCheckedValues().contains(nv1));
+
+            });
+
         });
 
+        checkBox.setMouseTransparent(true);
         checkBox.selectedProperty().addListener((ob, ov, nv)->{
             S item = getTableRow().getItem();
             XmTableView tableView = (XmTableView) getTableView();
@@ -282,11 +291,13 @@ public class XmCheckBoxTableCell<S,T> extends XmTableCell<S,T> {
                 boolean contains = tableView.getCheckedValues().contains(item);
                 if(!contains){
                     tableView.addCheckedValue(item);
+//                    System.out.println(tableView.getCheckedValues());
                 }
             }else{
                 tableView.getCheckedValues().remove(item);
             }
         });
+
 
     }
 

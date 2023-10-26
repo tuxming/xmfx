@@ -41,6 +41,7 @@ import com.xm2013.jfx.control.selector.*;
 import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.IndexedCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
@@ -51,7 +52,7 @@ public class DateSelectorPage extends BasePage {
 
     private ObservableMap<String, String> javaCodes = FXCollections.observableHashMap();
     private ObservableMap<String, String> cssCodes = FXCollections.observableHashMap();
-    private XmTextField labelField;
+    private XmTextField colorField;
     private String defaultJavaCode = "";
     private XmDateSelector selector;
     private String css;
@@ -271,12 +272,12 @@ public class DateSelectorPage extends BasePage {
                 colorSelector.setPrefix(rectangle);
 
                 if(item.getLabel().equals("other")){
-                    labelField.setVisible(true);
-                    labelField.setManaged(true);
-                    selector.setColorType(ColorType.other(labelField.getText()));
+                    colorField.setVisible(true);
+                    colorField.setManaged(true);
+                    selector.setColorType(ColorType.other(colorField.getText()));
                 }else{
-                    labelField.setVisible(false);
-                    labelField.setManaged(false);
+                    colorField.setVisible(false);
+                    colorField.setManaged(false);
 
                     selector.setColorType(item);
 
@@ -304,22 +305,24 @@ public class DateSelectorPage extends BasePage {
      * 设置自定义颜色
      */
     private void setMyDefineColor(XmDateSelector selector){
-        labelField = new XmTextField("自定义颜色");
-        labelField.setLabel("自定义颜色：");
-        labelField.setVisible(false);
-        labelField.setManaged(false);
-        labelField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
+        colorField = new XmTextField("自定义颜色");
+        colorField.setLabel("自定义颜色：");
+        colorField.setVisible(false);
+        colorField.setManaged(false);
+        colorField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
 //        labelField.setLabelWidth(115);
-        labelField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
-        labelField.setSizeType(SizeType.SMALL);
+        colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
+        colorField.setSizeType(SizeType.SMALL);
 
-        labelField.textProperty().addListener((ob, ov, nv) -> {
-            selector.setColorType(ColorType.other(labelField.getText().trim()));
-            javaCodes.put("setMyColor", "selector.setColorType(ColorType.other(\""+labelField.getText()+"\"));");
-            cssCodes.put("-fx-type-color:", labelField.getText().trim()+";");
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                selector.setColorType(ColorType.other(colorField.getText().trim()));
+                javaCodes.put("setMyColor", "selector.setColorType(ColorType.other(\""+ colorField.getText()+"\"));");
+                cssCodes.put("-fx-type-color:", colorField.getText().trim()+";");
+            }
         });
 
-        this.addActionComponent(labelField);
+        this.addActionComponent(colorField);
     }
 
     /**

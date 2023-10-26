@@ -232,12 +232,12 @@ public class XmTreeView<T> extends TreeView<T> {
                         HueType.DARK, true) {
                     @Override
                     public boolean isSettable(XmTreeView styleable) {
-                        return false;
+                        return styleable.hueType == null || !styleable.hueType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<HueType> getStyleableProperty(XmTreeView styleable) {
-                        return null;
+                        return (StyleableProperty<HueType>) styleable.hueTypeProperty();
                     }
                 };
 

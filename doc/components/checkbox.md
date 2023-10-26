@@ -1,4 +1,4 @@
-# 单选框/复选框
+# 单选框/复选框(XmCheckBox)
 
 ![checkbox](../images/checkbox.gif)
 
@@ -75,6 +75,41 @@ tg.selectedToggleProperty().addListener((ob, ov, nv)->{
     System.out.println(nv.getValue());
 });
 ```
+
+
+
+## 取值
+
+```java
+checkbox.isSelected();  //获取是不是选中
+checkbox.isAllowIndeterminate();  //是不是半选中状态
+
+//监听选中状态
+checkbox.selectedProperty().addListener((ob, ov, nv)->{
+	System.out.println(nv);
+});
+
+//T泛型取值, 泛型的value始终存在，应该是判断选中以后，根据需要取值
+checkbox.getValue();
+
+//checkbox组取值
+XmCheckBox cb1 = new XmCheckBox();
+XmCheckBox cb2 = new XmCheckBox();
+XmToggleGroup tg = new XmToggleGroup();
+cb1.setToggleGroup(tg);
+cb2.setToggleGroup(tg);
+//如果是泛型，可以直接获取选中的值。
+tg.getValue();
+//获取选中的文本
+tg.getText();
+//监听选中的对象
+tg.selectedToggleProperty().addListener((ob, ov, nv)->{
+	System.out.println(nv);
+});
+
+```
+
+
 
 
 

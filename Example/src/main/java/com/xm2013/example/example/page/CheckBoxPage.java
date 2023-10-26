@@ -42,6 +42,7 @@ import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -59,7 +60,7 @@ public class CheckBoxPage extends BasePage{
     private ObservableMap<String, String> javaCodes = FXCollections.observableHashMap();
     private ObservableMap<String, String> cssCodes = FXCollections.observableHashMap();
     private String css;
-    private XmTextField labelField;
+    private XmTextField colorField;
     private Map<String, XmCheckBox> checkBoxList = new LinkedHashMap<>();
     private String javaCodePrev;
     private String javaCodePrev1;
@@ -247,7 +248,7 @@ public class CheckBoxPage extends BasePage{
         cb.setToggleGroup(tg);
         cb1.setToggleGroup(tg);
         cb2.setToggleGroup(tg);
-
+        
         cb.getStyleClass().add("my-checkbox");
         cb1.getStyleClass().add("my-checkbox");
         cb2.getStyleClass().add("my-checkbox");
@@ -406,14 +407,14 @@ public class CheckBoxPage extends BasePage{
                 colorSelector.setPrefix(rectangle);
 
                 if(item.getLabel().equals("other")){
-                    labelField.setVisible(true);
-                    labelField.setManaged(true);
+                    colorField.setVisible(true);
+                    colorField.setManaged(true);
                     for (String name : checkBoxList.keySet()) {
-                        checkBoxList.get(name).setColorType(ColorType.other(labelField.getText()));
+                        checkBoxList.get(name).setColorType(ColorType.other(colorField.getText()));
                     }
                 }else{
-                    labelField.setVisible(false);
-                    labelField.setManaged(false);
+                    colorField.setVisible(false);
+                    colorField.setManaged(false);
 
                     String code = "";
                     for (String name : checkBoxList.keySet()) {
@@ -440,30 +441,30 @@ public class CheckBoxPage extends BasePage{
     }
 
     private void setMyDefineColor(){
-        labelField = new XmTextField("自定义颜色");
-        labelField.setLabel("自定义颜色：");
-        labelField.setVisible(false);
-        labelField.setManaged(false);
-        labelField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
+        colorField = new XmTextField("自定义颜色");
+        colorField.setLabel("自定义颜色：");
+        colorField.setVisible(false);
+        colorField.setManaged(false);
+        colorField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
 //        labelField.setLabelWidth(115);
-        labelField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
-        labelField.setSizeType(SizeType.SMALL);
+        colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
+        colorField.setSizeType(SizeType.SMALL);
 
-        labelField.textProperty().addListener((ob, ov, nv) -> {
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                String code = "";
+                String colorText = colorField.getText().trim();
+                for (String name : checkBoxList.keySet()) {
+                    checkBoxList.get(name).setColorType(ColorType.other(colorText));
+                    code += name+".setColorType(ColorType.get(\""+colorText+"\"))\r\n";
+                }
 
-            String code = "";
-            String colorText = labelField.getText().trim();
-            for (String name : checkBoxList.keySet()) {
-                checkBoxList.get(name).setColorType(ColorType.other(colorText));
-                code += name+".setColorType(ColorType.get(\""+colorText+"\"))\r\n";
+                javaCodes.put("colorType",code);
+                cssCodes.put("-fx-type-color",colorText.toLowerCase());
             }
-
-            javaCodes.put("colorType",code);
-            cssCodes.put("-fx-type-color",colorText.toLowerCase());
-
         });
 
-        this.addActionComponent(labelField);
+        this.addActionComponent(colorField);
     }
 
 

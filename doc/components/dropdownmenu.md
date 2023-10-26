@@ -1,4 +1,4 @@
-# 下拉菜单
+# 下拉菜单(XmDropdownMenu)
 
 ![dropdownmenu](../images/dropdownmenu.gif)
 

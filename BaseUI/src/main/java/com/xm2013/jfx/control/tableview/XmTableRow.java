@@ -77,6 +77,11 @@ public class XmTableRow<T> extends TableRow<T> {
                         new BorderWidths(0, 0, 0.5, 0),
                         Insets.EMPTY
                 )));
+
+                xtv.hueTypeProperty().addListener((ob1, ov1, nv1)->{
+                    infos.clear();
+                });
+
             }
         });
 
@@ -214,6 +219,13 @@ public class XmTableRow<T> extends TableRow<T> {
 
     }
 
+    /**
+     * 0-默认
+     * 1-odd
+     * 2-selected
+     * 3-hover
+     * @param status int
+     */
     private void buildCellSkinInfo(int status) {
 
         TableView<T> tableView = getTableView();

@@ -40,6 +40,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -620,10 +621,13 @@ public class TextFieldPage extends BasePage {
         colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
         colorField.setSizeType(SizeType.SMALL);
 
-        colorField.textProperty().addListener((ob, ov, nv) -> {
-            field = generateField();
-            setShowComponent(field);
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                field = generateField();
+                setShowComponent(field);
+            }
         });
+
 
         this.addActionComponent(colorField);
     }

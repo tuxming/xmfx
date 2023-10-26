@@ -67,9 +67,15 @@ public class MenuBuilder {
         Menu menu37 = new Menu("\ueb94", "下拉选择框", "com.xm2013.example.example.page.SelectorPage", 18, menu3);
         Menu menu38 = new Menu("\ue65e", "日期选择框", "com.xm2013.example.example.page.DateSelectorPage", 19, menu3);
         Menu menu39 = new Menu("\ue65e", "日期范围选择框", "com.xm2013.example.example.page.DateRangeSelectorPage", 20, menu3);
-        Menu menu40 = defaultMenu= new Menu("\ue6fd", "分页", "com.xm2013.example.example.page.PagerPage", 21, menu3);
+        Menu menu310 = new Menu("\ue6fd", "分页", "com.xm2013.example.example.page.PagerPage", 21, menu3);
+        Menu menu311= new Menu("\ue8fc", "列表视图", "com.xm2013.example.example.page.ListViewPage", 22, menu3);
+        Menu menu312 = new Menu("\ue892", "树形视图", "com.xm2013.example.example.page.TreeViewPage", 23, menu3);
+        Menu menu313 = new Menu("\ue755", "网格视图", "com.xm2013.example.example.page.GridViewPage", 24, menu3);
+        Menu menu314 = defaultMenu= new Menu("\ue78c", "表格视图", "com.xm2013.example.example.page.TableViewPage", 25, menu3);
 
-        menu3.addAllChildren(menu31, menu32, menu33, menu34, menu35, menu36, menu37, menu38, menu39, menu40);
+        menu3.addAllChildren(menu31, menu32, menu33, menu34, menu35, menu36, menu37, menu38, menu39, menu310
+            ,menu311,menu312, menu313, menu314
+        );
 
         menus.add(menu1);
         menus.add(menu2);

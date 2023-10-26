@@ -674,12 +674,12 @@ public class XmButton extends Button{
                         XmButtonType.BtnDisplayType.FULL, true) {
                     @Override
                     public boolean isSettable(XmButton styleable) {
-                        return false;
+                        return styleable.displayType == null || !styleable.displayType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<XmButtonType.BtnDisplayType> getStyleableProperty(XmButton styleable) {
-                        return null;
+                        return (StyleableProperty<XmButtonType.BtnDisplayType>) styleable.displayTypeProperty();
                     }
                 };
 
@@ -693,12 +693,12 @@ public class XmButton extends Button{
                         HueType.DARK, true) {
                     @Override
                     public boolean isSettable(XmButton styleable) {
-                        return false;
+                        return styleable.hueType == null || !styleable.hueType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<HueType> getStyleableProperty(XmButton styleable) {
-                        return null;
+                        return (StyleableProperty<HueType>) styleable.hueTypeProperty();
                     }
                 };
 
@@ -712,12 +712,12 @@ public class XmButton extends Button{
                         ClickAnimateType.RIPPER, true) {
                     @Override
                     public boolean isSettable(XmButton styleable) {
-                        return false;
+                        return styleable.clickAnimateType == null || !styleable.clickAnimateType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<ClickAnimateType> getStyleableProperty(XmButton styleable) {
-                        return null;
+                        return (StyleableProperty<ClickAnimateType>) styleable.clickAnimateTypeProperty();
                     }
                 };
 
@@ -731,12 +731,12 @@ public class XmButton extends Button{
                         XmButtonType.BtnLoadingType.NONE, true) {
                     @Override
                     public boolean isSettable(XmButton styleable) {
-                        return false;
+                        return styleable.loadingType == null || !styleable.loadingType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<XmButtonType.BtnLoadingType> getStyleableProperty(XmButton styleable) {
-                        return null;
+                        return (StyleableProperty<XmButtonType.BtnLoadingType>) styleable.loadingTypeProperty();
                     }
                 };
 
@@ -750,12 +750,12 @@ public class XmButton extends Button{
                         XmButtonType.BtnIconAnimationType.NONE, true) {
                     @Override
                     public boolean isSettable(XmButton styleable) {
-                        return false;
+                        return styleable.iconAnimateType == null || !styleable.iconAnimateType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<XmButtonType.BtnIconAnimationType> getStyleableProperty(XmButton styleable) {
-                        return null;
+                        return (StyleableProperty<XmButtonType.BtnIconAnimationType>) styleable.iconAnimateTypeProperty();
                     }
                 };
 

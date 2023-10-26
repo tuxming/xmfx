@@ -191,12 +191,12 @@ public class XmListView<T> extends ListView<T> {
                         HueType.DARK, true) {
                     @Override
                     public boolean isSettable(XmListView styleable) {
-                        return false;
+                        return styleable.hueType == null || !styleable.hueType.isBound();
                     }
 
                     @Override
                     public StyleableProperty<HueType> getStyleableProperty(XmListView styleable) {
-                        return null;
+                        return (StyleableProperty<HueType>) styleable.hueTypeProperty();
                     }
                 };
 

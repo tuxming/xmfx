@@ -44,6 +44,7 @@ import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -59,12 +60,12 @@ public class ButtonPage extends BasePage {
     private ObservableMap<String, String> javaCodes = FXCollections.observableHashMap();
     private ObservableMap<String, String> cssCodes = FXCollections.observableHashMap();
     private String css;
-    private XmTextField labelField;
+    private XmTextField colorField;
 
     public ButtonPage() {
 
         this.setTitle("按钮（XmButton）", new XmFontIcon("\ue6fc"));
-        this.setComponentTitle("自定义按钮");
+        this.setComponentTitle("属性");
 
 //        btn = new XmButton("自定义按钮", new XmFontIcon("\ue66c"));
         XmSVGIcon icon = new XmSVGIcon("<svg t=\"1687375074977\" class=\"icon\" viewBox=\"0 0 1024 1024\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" p-id=\"1472\" width=\"64\" height=\"64\"><path d=\"M512 72c59.4 0 117 11.6 171.2 34.5 52.4 22.2 99.4 53.9 139.9 94.3 40.4 40.4 72.2 87.5 94.3 139.9C940.4 395 952 452.6 952 512s-11.6 117-34.5 171.2c-22.2 52.4-53.9 99.4-94.3 139.9-40.4 40.4-87.5 72.2-139.9 94.3C629 940.4 571.4 952 512 952s-117-11.6-171.2-34.5c-52.4-22.2-99.4-53.9-139.9-94.3-40.4-40.4-72.2-87.5-94.3-139.9C83.6 629 72 571.4 72 512s11.6-117 34.5-171.2c22.2-52.4 53.9-99.4 94.3-139.9 40.4-40.4 87.5-72.2 139.9-94.3C395 83.6 452.6 72 512 72m0-72C229.2 0 0 229.2 0 512s229.2 512 512 512 512-229.2 512-512S794.8 0 512 0z\" p-id=\"1473\"></path><path d=\"M425 714.9c-20.7 0-40.2-8.1-54.8-22.7L222.4 544.4c-14.1-14.1-14.1-36.9 0-50.9 14.1-14.1 36.9-14.1 50.9 0l147.8 147.8c1.3 1.3 2.9 1.6 3.9 1.6s2.6-0.3 3.9-1.6l321.7-321.6c14.1-14.1 36.9-14.1 50.9 0 14.1 14.1 14.1 36.9 0 50.9L479.9 692.2c-14.7 14.6-34.1 22.7-54.9 22.7z\" p-id=\"1474\"></path></svg>");
@@ -223,12 +224,12 @@ public class ButtonPage extends BasePage {
                 colorSelector.setPrefix(rectangle);
 
                 if(item.getLabel().equals("other")){
-                    labelField.setVisible(true);
-                    labelField.setManaged(true);
-                    button.setColorType(ColorType.other(labelField.getText()));
+                    colorField.setVisible(true);
+                    colorField.setManaged(true);
+                    button.setColorType(ColorType.other(colorField.getText()));
                 }else{
-                    labelField.setVisible(false);
-                    labelField.setManaged(false);
+                    colorField.setVisible(false);
+                    colorField.setManaged(false);
 
                     button.setColorType(item);
 
@@ -254,22 +255,24 @@ public class ButtonPage extends BasePage {
      * 设置自定义颜色
      */
     private void setMyDefineColor(XmButton selector){
-        labelField = new XmTextField("自定义颜色");
-        labelField.setLabel("自定义颜色：");
-        labelField.setVisible(false);
-        labelField.setManaged(false);
-        labelField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
+        colorField = new XmTextField("自定义颜色");
+        colorField.setLabel("自定义颜色：");
+        colorField.setVisible(false);
+        colorField.setManaged(false);
+        colorField.setText("linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #23d0f3ff 0.0%, #d791f9ff 50.0%, #fe7b84ff 100.0%)");
 //        labelField.setLabelWidth(115);
-        labelField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
-        labelField.setSizeType(SizeType.SMALL);
+        colorField.setDisplayType(XmFieldDisplayType.HORIZONTAL_OUTLINE);
+        colorField.setSizeType(SizeType.SMALL);
 
-        labelField.textProperty().addListener((ob, ov, nv) -> {
-            selector.setColorType(ColorType.other(labelField.getText().trim()));
-            javaCodes.put("setMyColor", "button.setColorType(ColorType.other(\""+labelField.getText()+"\"));");
-            cssCodes.put("-fx-type-color", labelField.getText().trim()+";");
+        colorField.setOnKeyReleased(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                selector.setColorType(ColorType.other(colorField.getText().trim()));
+                javaCodes.put("setMyColor", "button.setColorType(ColorType.other(\""+ colorField.getText()+"\"));");
+                cssCodes.put("-fx-type-color", colorField.getText().trim()+";");
+            }
         });
 
-        this.addActionComponent(labelField);
+        this.addActionComponent(colorField);
     }
 
     /**
@@ -280,13 +283,13 @@ public class ButtonPage extends BasePage {
         XmLabel label = new XmLabel("控件色调：");
 
         XmCheckBox<HueType> darkCb = new XmCheckBox<HueType>();
-        darkCb.setValue(HueType.LIGHT);
-        darkCb.setText("NONE");
+        darkCb.setValue(HueType.DARK);
+        darkCb.setText("DARK");
         darkCb.setSizeType(SizeType.SMALL);
 
         XmCheckBox<HueType> lightCb = new XmCheckBox<HueType>();
-        lightCb.setValue(HueType.DARK);
-        lightCb.setText("SMALL");
+        lightCb.setValue(HueType.LIGHT);
+        lightCb.setText("LIGHT");
         lightCb.setSizeType(SizeType.SMALL);
         lightCb.setSelected(true);
 
