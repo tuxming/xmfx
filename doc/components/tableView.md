@@ -36,6 +36,7 @@ tableView = new XmTableView<>();
 tableView.getStyleClass().add(".my-table");
 tableView.setPrefWidth(400);
 tableView.setPrefHeight(400);
+tableView.setItems(data);
 ```
 
 3，设置行
@@ -97,6 +98,17 @@ nameCol.setCellFactory(param -> new XmTableCell<>(){		//设置为XmTableCell
 });
 
 tableView.getColumns().addAll(idCol, codeCol, nameCol);
+```
+
+
+
+## 取值
+
+```java
+//如果有XmTextFieldTableCell，可以用这个取值
+tableView.getCheckedValues();
+//获取当前选中值
+tableView.getSelectionModel().getSelectedItem();
 ```
 
 

@@ -50,28 +50,7 @@ listView.setHueType(HueType.LIGHT);
 listView.setSizeType(SizeType.MEDIUM);
 ```
 
-3, 设置converter
-
-```java
-listView.setCellFactory(new Callback<ListView<MyDMenu>, ListCell<MyDMenu>>() {
-    @Override
-    public ListCell<MyDMenu> call(ListView<MyDMenu> param) {
-        return new XmListCell<>(){
-            @Override
-            protected void updateItem(MyDMenu item, boolean empty) {
-                super.updateItem(item, empty);
-                if(empty || item == null){
-                    setText(null);
-                }else{
-                    setText(item.getLabelName());
-                }
-            }
-        };
-    }
-});
-```
-
-4, 设置cellFactory
+3, 设置cellFactory
 
 ```java
 //XmListCell
@@ -110,6 +89,19 @@ listView.setCellFactory(new Callback<ListView<MyDMenu>, ListCell<MyDMenu>>() {
     }
 });
 
+```
+
+
+
+## 取值
+
+```java
+//如果是：XmListCell
+listView.getSelectionModel().getSelectedItem();
+
+//如果是：XmCheckBoxListCell。
+//通过listView.getSelectionModel().getSelectedItem();可以获取最后选中值
+listView.getCheckedValues();
 ```
 
 

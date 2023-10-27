@@ -207,6 +207,21 @@ grid.setCellFactory(new Callback<GridView<String>, GridCell<String>>() {
 
 
 
+## 取值
+
+```JAVA
+//如果是GridCell, 可以通过getValue获取选中值。
+grid.getValue();
+
+//如果是XmCheckBoxGridCell， 可以通过getCheckedValues()获取选中值,
+//grid.getValue(), 可以获取到最后选中的值
+grid.getCheckedValues();
+```
+
+
+
+
+
 
 
 [实例代码(TestGridView)](../../Example/src/main/java/com/xm2013/example/test/TestGridView.java)

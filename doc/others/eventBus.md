@@ -1,6 +1,6 @@
 # EventBus
 
-eventBus在很多组件中都有这个概念，javaFx并没有自带，这里使用了开源组件[AlmasB/FXEventBus](https://github.com/AlmasB/FXEventBus) 继承。
+eventBus在很多组件中都有这个概念，javaFx并没有自带，这里使用了开源组件[AlmasB/FXEventBus](https://github.com/AlmasB/FXEventBus) 集成
 
 eventBus的功能就是能够跨组件通信， 
 

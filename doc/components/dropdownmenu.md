@@ -50,7 +50,48 @@ dropdownMenu.setColorType(ColorType.get("danger"));
 
 
 
-[下拉菜单的实例代码](../../Example/src/main/java/com/xm2013/example/example/page/DropdownMenuPage.java)
+## 取值
+
+这个组件理论上只需要设置回调函数，但是也可以获取值
+
+```JAVA
+dropdownMenu.getSelectedItem();  //获取选中条目
+
+//监听选中条目
+dropdownMenu.selectedItemProperty().addListener((ob, ov, nv)->{
+    DropdownMenuItem item = (DropdownMenuItem) nv;
+    if(nv!=null){
+        System.out.println(item.getLabelName());
+    }
+});
+
+//设置选中条目的回调函数
+dropdownMenu.setSelectedCallback(new CallBack<DropdownMenuItem>() {
+    @Override
+    public void call(DropdownMenuItem o) {
+        dropdownMenu.setText(o.getLabelName());
+    }
+});
+
+//设置左边文本点击的回调函数
+dropdownMenu.setClickCallback(new CallBack<MouseEvent>() {
+    @Override
+    public void call(MouseEvent e) {
+        System.out.println("click text");
+    }
+});
+
+//通过设置showing手动展开或者关闭下拉菜单
+btn.setOnAction( e-> {
+    dropdownMenu.setShowing(!dropdownMenu.isShowing());
+});
+```
+
+
+
+[实例代码(TestDropdownMenu)](../../Example/src/main/java/com/xm2013/example/test/TestDropdownMenu.java)
+
+[实例代码(DropdownMenuPage)](../../Example/src/main/java/com/xm2013/example/example/page/DropdownMenuPage.java)
 
 
 

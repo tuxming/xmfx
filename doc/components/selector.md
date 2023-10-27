@@ -10,7 +10,7 @@
 
 ## 使用
 
-### 列表
+### 下拉列表
 
 ```java
 //列表支持
@@ -29,11 +29,16 @@ SelectorConvert<SelectorItem> convert = new SelectorConvert<SelectorItem>() {
 
 XmSelector<SelectorItem> selector = new XmSelector<SelectorItem>();
 //显示的最大条目，如果没有设置，则全部显示
+//最大条目是在多选的情况下才有作用
+selector.setMultiple(true);
 selector.setMaxTagCount(3);
+
 selector.setHueType(HueType.LIGHT);
 selector.setPromptText("请选择");
 selector.setConverter(convert);
 selector.setPrefWidth(250);
+
+//准备数据， 通过继承SelectorItemBase，可以设置一些属性。
 for(int i=0; i<50; i++){
     final int index = i;
     selector.getItems().add(new MySelectorItem("节点 "+(i+1)){
@@ -65,6 +70,7 @@ for(int i=0; i<50; i++){
     });
 }
 
+//设置回调函数
 selector.setCellFactory(new SelectorCellFactory<SelectorItem>() {
     @Override
     public void updateItem(IndexedCell<SelectorItem> cell, SelectorItem item, boolean empty) {
@@ -80,9 +86,10 @@ selector.setCellFactory(new SelectorCellFactory<SelectorItem>() {
 
 
 
-### 网格
+### 下拉网格
 
 ```java
+//设置converter
 SelectorConvert<File> convert = new SelectorConvert<File>() {
     @Override
     public String toString(File object) {
@@ -96,6 +103,12 @@ SelectorConvert<File> convert = new SelectorConvert<File>() {
 };
 
 XmSelector<File> selector = new XmSelector<File>();
+
+//显示的最大条目，如果没有设置，则全部显示
+//最大条目是在多选的情况下才有作用
+selector.setMultiple(true);
+selector.setMaxTagCount(3)
+
 selector.setPromptText("请选择");
 selector.setSelectorType(SelectorType.GRID);  //设置网格显示
 selector.setConverter(convert);
@@ -138,7 +151,7 @@ selector.setCellFactory(new SelectorCellFactory<File>() {
 
 
 
-### 树形结构
+### 下拉树形结构
 
 ```java
 SelectorConvert<MySelectorItem> convert = new SelectorConvert<MySelectorItem>() {
@@ -328,9 +341,20 @@ public static MySelectorItem buildTreeData(){
 
 
 
+## 取值
+
+```java
+//单选取值
+selector.getValue();
+//多选取值
+selector.getValues();
+```
 
 
-[下拉选择框的实例代码](../../Example/src/main/java/com/xm2013/example/example/page/SelectorPage.java)
+
+[分页器的实例代码(SelectorPage)](../../Example/src/main/java/com/xm2013/example/test/SelectorPage.java)
+
+[分页器的实例代码(SelectorPage)](../../Example/src/main/java/com/xm2013/example/example/page/SelectorPage.java)
 
 
 

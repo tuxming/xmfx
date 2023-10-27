@@ -12,6 +12,7 @@
 - [分页器](./components/pager.md)
 - [列表视图](./components/listView.md)
 - [网格视图](./components/gridView.md)
+- [树形视图](./components/treeView.md)
 - [表格视图](./components/tableView.md)
 
 ## 内置组件
