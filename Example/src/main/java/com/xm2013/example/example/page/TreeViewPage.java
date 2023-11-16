@@ -590,7 +590,7 @@ public class TreeViewPage extends BasePage{
 
             setListCellFactory();
 
-            this.javaCodes.put("hueType", "listView.setHueType(HueType."+nv.getValue()+");");
+            this.javaCodes.put("hueType", "treeView.setHueType(HueType."+nv.getValue()+");");
             this.cssCodes.put("-fx-type-hue", nv.getValue().toString().replace("_","-").toLowerCase()+";");
         });
 

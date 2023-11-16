@@ -58,7 +58,6 @@ public class BasePage extends ScrollPane {
     private XmButton runBtn, clearBtn;
 
     public BasePage(){
-
         contentPane = new VBox();
         this.setContent(contentPane);
         this.setFitToWidth(true);

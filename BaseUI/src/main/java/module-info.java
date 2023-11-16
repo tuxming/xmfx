@@ -30,4 +30,5 @@ module com.xm2013.BaseUI {
     exports com.xm2013.jfx.control.listview;
     exports com.xm2013.jfx.control.treeview;
     exports com.xm2013.jfx.control.tableview;
+    exports com.xm2013.jfx.control.tab;
 }

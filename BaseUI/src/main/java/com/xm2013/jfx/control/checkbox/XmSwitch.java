@@ -12,6 +12,7 @@ import javafx.css.CssMetaData;
 import javafx.css.Styleable;
 import javafx.css.StyleableProperty;
 import javafx.css.converter.EnumConverter;
+import javafx.geometry.VPos;
 import javafx.scene.AccessibleRole;
 import javafx.scene.Node;
 import javafx.scene.control.Skin;
@@ -77,7 +78,9 @@ public class XmSwitch extends XmControl {
         this.activeNodeProperty().set(activeNode);
     }
     public void setActiveText(String text){
-        this.setActiveNode(new Text(text));
+        Text text1 = new Text(text);
+        text1.setTextOrigin(VPos.BOTTOM);
+        this.setActiveNode(text1);
     }
 
     /**
@@ -99,7 +102,9 @@ public class XmSwitch extends XmControl {
         this.inactiveNodeProperty().set(inactiveNode);
     }
     public void setInactiveText(String text){
-        this.inactiveNodeProperty().set(new Text(text));
+        Text text1 = new Text(text);
+        text1.setTextOrigin(VPos.BOTTOM);
+        this.inactiveNodeProperty().set(text1);
     }
     
     /*
@@ -115,6 +120,10 @@ public class XmSwitch extends XmControl {
             hueType = FxKit.newProperty(HueType.LIGHT, XmSwitch.StyleableProperties.HUE_TYPE, this, "hueType");
         return hueType;
     }
+    public void setHueType(HueType hueType){
+        this.hueTypeProperty().set(hueType);
+    }
+
 
     private static class StyleableProperties {
 

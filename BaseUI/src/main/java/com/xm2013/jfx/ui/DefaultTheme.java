@@ -29,8 +29,11 @@ import com.xm2013.jfx.common.MenuPopup;
 import com.xm2013.jfx.common.XmMenu;
 import com.xm2013.jfx.component.eventbus.FXEventBus;
 import com.xm2013.jfx.component.eventbus.XmEvent;
+import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.icon.XmFontIcon;
 import com.xm2013.jfx.control.icon.XmIcon;
+import com.xm2013.jfx.control.tab.XmTab;
+import com.xm2013.jfx.control.tab.XmTabPane;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -48,6 +51,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
@@ -130,7 +134,7 @@ public class DefaultTheme extends BorderPane {
     /**
      * 主内容区域
      */
-    private TabPane mainPane;
+    private XmTabPane mainPane;
     /**
      * 底部状态栏
      */
@@ -149,13 +153,13 @@ public class DefaultTheme extends BorderPane {
 
         //初始化右边的顶部
         this.initTop();
+        this.initStausBar();
 
         this.setCenter(centerPane);
 
         //初始中间主要内容模块
         this.initCenter();
 
-        this.initStausBar();
 
     }
 
@@ -504,7 +508,12 @@ public class DefaultTheme extends BorderPane {
      */
     private void initCenter() {
 
-        this.mainPane = new TabPane();
+        this.mainPane = new XmTabPane();
+        this.mainPane.tabMaxWidthProperty().bind(mainPane.widthProperty());
+//        this.mainPane.maxHeightProperty().bind(Bindings.createDoubleBinding(()->{
+//            return centerPane.getHeight() - top.getHeight() - statusBar.getHeight();
+//        }, statusBar.heightProperty(), centerPane.heightProperty(), top.heightProperty()));
+//        this.mainPane.prefHeightProperty().bind(this.mainPane.maxHeightProperty());
         this.centerPane.setCenter(mainPane);
 
     }
@@ -537,9 +546,9 @@ public class DefaultTheme extends BorderPane {
      */
     public void addPage(String key, Node page, Node icon, String title){
 
-        List<Tab> tabs = mainPane.getTabs();
-        Tab foundTab = null;
-        for(Tab tab : tabs){
+        List<XmTab> tabs = mainPane.getTabs();
+        XmTab foundTab = null;
+        for(XmTab tab : tabs){
             if(tab.getUserData().equals(key)){
                 foundTab = tab;
                 break;
@@ -547,17 +556,19 @@ public class DefaultTheme extends BorderPane {
         }
 
         if(foundTab == null){
-            Tab tab = new Tab(title, page);
-
-            tab.setGraphic(icon);
-            tab.setClosable(true);
+            XmTab tab = new XmTab(title, icon, page);
+            tab.setHueType(HueType.DARK);
+            tab.setCloseable(true);
             tab.setUserData(key);
+            tab.setFontColor(Color.web("#444444"));
             icon.setMouseTransparent(true);
 
             mainPane.getTabs().add(tab);
-            mainPane.getSelectionModel().select(tab);
+            mainPane.select(tab);
+//            mainPane.getSelectionModel().select(tab);
         }else{
-            mainPane.getSelectionModel().select(foundTab);
+            mainPane.select(foundTab);
+//            mainPane.getSelectionModel().select(foundTab);
         }
 
     }

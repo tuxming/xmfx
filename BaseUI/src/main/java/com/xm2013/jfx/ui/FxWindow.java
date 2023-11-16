@@ -29,6 +29,9 @@ import com.xm2013.jfx.borderless.BorderlessScene;
 import com.xm2013.jfx.borderless.CustomStage;
 import com.xm2013.jfx.component.eventbus.FXEventBus;
 import com.xm2013.jfx.component.eventbus.XmEvent;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -38,20 +41,50 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class FxWindow {
-    private double width, height;
     private CustomStage stage;
     private BorderlessScene scene = null;
 
+    private DoubleProperty heightProperty = new SimpleDoubleProperty();
+    private DoubleProperty widthProperty = new SimpleDoubleProperty();
+
     public FxWindow(double width, double height, Pane rootPane) throws IOException {
-        this.width = width;
-        this.height = height;
+
+        heightProperty.set(height);
+        widthProperty.set(width);
 
         stage = new CustomStage(StageStyle.TRANSPARENT);
-        stage.setWidth(this.width+40);
-        stage.setHeight(this.height+40);
+        stage.setWidth(width+40);
+        stage.setHeight(height+40);
 
         scene = stage.craftBorderlessScene(rootPane);
         scene.setFill(Color.TRANSPARENT);
+
+        scene.maximizedProperty().addListener((ob, ov, nv)->{
+            if(nv){
+                heightProperty.set(stage.getHeight());
+                widthProperty.set(stage.getWidth());
+            }else{
+                heightProperty.set(stage.getHeight()-40);
+                widthProperty.set(stage.getWidth()-40);
+            }
+        });
+
+        stage.heightProperty().addListener((ob, ov, nv)->{
+            if(scene.isMaximized()){
+                heightProperty.set(stage.getHeight());
+            }else{
+                heightProperty.set(stage.getHeight()-40);
+            }
+        });
+
+        stage.widthProperty().addListener((ob, ov, nv)->{
+            if(scene.isMaximized()){
+                widthProperty.set(stage.getWidth());
+            }else{
+                widthProperty.set(stage.getWidth()-40);
+            }
+        });
+
 
         stage.setScene(scene);
         scene.removeDefaultCSS();
@@ -112,5 +145,12 @@ public class FxWindow {
 
     public BorderlessScene getScene() {
         return scene;
+    }
+
+    public DoubleProperty widthProperty() {
+        return widthProperty;
+    }
+    public DoubleProperty heightProperty(){
+        return heightProperty;
     }
 }

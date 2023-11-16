@@ -140,6 +140,7 @@ public class XmListCell<T> extends ListCell<T> {
 
                     startRadius += 0.25;
                     if(startRadius<endRadius){
+
                         RadialGradient radialGradient = new RadialGradient(0, 0, 0, 0.5, startRadius,true, CycleMethod.NO_CYCLE, stops);
                         setBackground(new Background(new BackgroundFill(radialGradient, CornerRadii.EMPTY, Insets.EMPTY)));
 

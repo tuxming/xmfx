@@ -4,6 +4,7 @@ import com.xm2013.jfx.control.base.ColorType;
 import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.icon.XmIcon;
+import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -139,23 +140,35 @@ public class XmSwitchSkin extends SkinBase {
 //        super.layoutChildren(contentX, contentY, contentWidth, contentHeight);
 
         boolean checked = control.isChecked();
-        double y = contentY, width = box.prefWidth(-1), x = checked?contentWidth-width - 1 : contentX + 1;
+        double width = box.prefWidth(-1), height = box.prefHeight(-1), x = checked?contentWidth-width - 1 : contentX + 1,
+            y = contentY+(contentHeight - height)/2;
         layoutInArea(box, x, y, width, width, -1, HPos.CENTER, VPos.CENTER);
+
+//        System.out.println("contentH:"+contentHeight+", height:"+height);
 
         Node activeNode = control.getActiveNode();
         Node inactiveNode = control.getInactiveNode();
 
         if(inactiveNode!=null){
             if(inactiveNode instanceof Text){
-                inactiveNode.setLayoutX(contentWidth - inactiveNode.prefWidth(-1) - 2);
-                inactiveNode.setLayoutY(inactiveNode.prefHeight(-1));
+                Text tx = (Text) inactiveNode;
+                height = tx.prefHeight(-1);
+
+//                System.out.println(contentHeight);
+
+                inactiveNode.setLayoutX(contentWidth - inactiveNode.prefWidth(-1) - 5);
+                inactiveNode.setLayoutY(height+(contentHeight - height)/2);
             }
         }
 
         if(activeNode!=null){
             if(activeNode instanceof Text){
-                activeNode.setLayoutX(2);
-                activeNode.setLayoutY(activeNode.prefHeight(-1));
+                activeNode.setLayoutX(5);
+
+                Text tx = (Text) activeNode;
+                height = tx.prefHeight(-1);
+
+                activeNode.setLayoutY(height+(contentHeight - height)/2);
             }
         }
 
@@ -209,15 +222,25 @@ public class XmSwitchSkin extends SkinBase {
         }
 
         if(SizeType.SMALL.equals(sizeType)){
-            info.size = 14;
+            info.size = 18;
             info.fontSize = 12;
         }else if(SizeType.LARGE.equals(sizeType)){
-            info.size = 18;
-            info.fontSize = 16;
-        }else{
-            info.size = 16;
+            info.size = 26;
             info.fontSize = 14;
+        }else{
+            info.size = 22;
+            info.fontSize = 13;
         }
+//        if(SizeType.SMALL.equals(sizeType)){
+//            info.size = 14;
+//            info.fontSize = 12;
+//        }else if(SizeType.LARGE.equals(sizeType)){
+//            info.size = 18;
+//            info.fontSize = 16;
+//        }else{
+//            info.size = 16;
+//            info.fontSize = 14;
+//        }
 
         infos.put(status,info);
 

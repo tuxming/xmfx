@@ -24,6 +24,8 @@
  */
 package com.xm2013.example.test;
 
+import com.xm2013.jfx.control.base.ColorType;
+import com.xm2013.jfx.control.base.HueType;
 import com.xm2013.jfx.control.base.SizeType;
 import com.xm2013.jfx.control.checkbox.XmSwitch;
 import com.xm2013.jfx.control.icon.XmFontIcon;
@@ -46,23 +48,24 @@ public class TestSwitch extends Application {
 
         XmSwitch xs = new XmSwitch();
         xs.setSizeType(SizeType.SMALL);
-
-        XmFontIcon inActiveNode = new XmFontIcon("\ueb45");
-        inActiveNode.setLayoutX(26);
-        inActiveNode.setLayoutY(8);
-        inActiveNode.setColor(Color.web("#777777"));
-
         xs.setLayoutX(20);
         xs.setLayoutY(20);
 
+        XmFontIcon inActiveNode = new XmFontIcon("\ueb45");
+        inActiveNode.setLayoutX(32);
+        inActiveNode.setLayoutY(11);
+        inActiveNode.setColor(Color.web("#777777"));
         xs.setInactiveNode(inActiveNode);
+
         XmFontIcon activeNode = new XmFontIcon("\uebcc");
-        activeNode.setLayoutY(8);
+        activeNode.setLayoutY(11);
         activeNode.setLayoutX(10);
         activeNode.setColor(Color.WHITE);
         xs.setActiveNode(activeNode);
 
         XmSwitch xs1 = new XmSwitch();
+        xs1.setHueType(HueType.DARK);
+        xs1.setColorType(ColorType.danger());
         xs1.setActiveText("on");
         xs1.setInactiveText("off");
         xs1.setSizeType(SizeType.MEDIUM);
@@ -70,8 +73,9 @@ public class TestSwitch extends Application {
         xs1.setLayoutY(20);
 
         XmSwitch xs2 = new XmSwitch();
+        xs2.setColorType(ColorType.success());
         xs2.setSizeType(SizeType.LARGE);
-        xs2.setLayoutX(120);
+        xs2.setLayoutX(130);
         xs2.setLayoutY(20);
 
         pane.getChildren().addAll(xs, xs1, xs2);

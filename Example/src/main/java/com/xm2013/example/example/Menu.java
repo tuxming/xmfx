@@ -109,6 +109,10 @@ public class Menu implements XmMenu {
         return iconNode;
     }
 
+    public String getIconStr(){
+        return icon;
+    }
+
     @Override
     public String getLabel() {
         return label;
@@ -119,6 +123,7 @@ public class Menu implements XmMenu {
         if(page == null){
             if(pageClass!=null){
                 try{
+//                    System.out.println(pageClass);
                     Class<?> clazz = Class.forName(pageClass);
                     page = (Node) clazz.getDeclaredConstructor().newInstance();
                 }catch (Exception e){

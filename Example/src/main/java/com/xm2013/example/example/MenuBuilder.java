@@ -71,9 +71,10 @@ public class MenuBuilder {
         Menu menu311= new Menu("\ue8fc", "列表视图", "com.xm2013.example.example.page.ListViewPage", 22, menu3);
         Menu menu312 = new Menu("\ue892", "树形视图", "com.xm2013.example.example.page.TreeViewPage", 23, menu3);
         Menu menu313 = new Menu("\ue755", "网格视图", "com.xm2013.example.example.page.GridViewPage", 24, menu3);
-        Menu menu314 = defaultMenu= new Menu("\ue78c", "表格视图", "com.xm2013.example.example.page.TableViewPage", 25, menu3);
+        Menu menu314 = new Menu("\ue78c", "表格视图", "com.xm2013.example.example.page.TableViewPage", 25, menu3);
+        Menu menu315 = defaultMenu= new Menu("\ue8d0", "Switch开关", "com.xm2013.example.example.page.SwitchPage", 26, menu3);
 
-        menu3.addAllChildren(menu31, menu32, menu33, menu34, menu35, menu36, menu37, menu38, menu39, menu310
+        menu3.addAllChildren(menu31, menu32, menu33, menu34,menu315, menu35, menu36, menu37, menu38, menu39, menu310
             ,menu311,menu312, menu313, menu314
         );
 
