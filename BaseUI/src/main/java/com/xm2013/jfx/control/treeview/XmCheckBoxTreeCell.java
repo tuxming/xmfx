@@ -32,6 +32,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
@@ -349,6 +350,7 @@ public class XmCheckBoxTreeCell<T> extends XmTreeCell<T> {
 //                }
 //            }
 //        });
+        init();
     }
 
     /* *************************************************************************

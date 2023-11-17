@@ -35,6 +35,7 @@ import com.xm2013.jfx.control.icon.XmFontIcon;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
@@ -87,7 +88,13 @@ public class TestTreeView extends Application {
                     public TreeItem<MyDMenu> fromString(String string) {
                         return new TreeItem<>(new MyDMenu(string));
                     }
-                });
+                }){
+                    @Override
+                    public void updateItem(MyDMenu item, boolean empty) {
+                        super.updateItem(item, empty);
+                        getCheckBox().setMargin(new Insets(10,0,0,0));
+                    }
+                };
             }
         });
 
