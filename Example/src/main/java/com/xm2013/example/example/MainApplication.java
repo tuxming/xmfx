@@ -44,20 +44,22 @@ public class MainApplication extends Application {
         FxWindow window = new FxWindow(1200, 900, layout);
 
         window.setMoveControl(layout.getTopPane());
-        window.setTitle("XmUI Example");
+        
         window.show();
 
-        initPage();
+        initPage(window);
     }
 
-    private void initPage(){
+    private void initPage(FxWindow window){
         XmFontIcon.setIconFont(getClass().getResource("/font/iconfont.ttf").toExternalForm());
 
         Image logo = new Image(getClass().getResource("/images/logo.png").toExternalForm());
         layout.setLogoImg(logo);
+        window.setTitle("XmUI Example", logo);
         layout.setTitle("UI Components");
         layout.setSubTitle("https://xm2013.com");
-
+        
+       
         MenuBuilder builder = new MenuBuilder();
         layout.addAllMenu(builder.buildMenu());
         layout.addContentPage(builder.getDefaultMenu());

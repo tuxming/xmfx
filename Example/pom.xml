@@ -45,14 +45,15 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -61,17 +62,238 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.xm2013.example.example/com.xm2013.example.example.MainApplication
-                            </mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
+                            <mainClass>com.xm2013.example.example.MainApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- 1. 创建build目录在target下面 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>create-build-dir</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/build"/>
+                                <mkdir dir="${project.build.directory}/build/lib"/>
+                                <mkdir dir="${project.build.directory}/build/jdk"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- 2. 将Example-1.0.jar复制到build目录 -->
+            <!-- 3. 将run.bat复制到build目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/build</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>${project.build.finalName}.jar</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-bat</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/build</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>*.bat</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <!-- 添加新配置：复制图标文件到build目录 -->
+                    <execution>
+                        <id>copy-icon</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/build</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/images</directory>
+                                    <includes>
+                                        <include>logo.ico</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <!-- 单独处理setup.iss文件，保持GB2312编码 -->
+                    <execution>
+                        <id>copy-iss</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>setup.iss</include>
+                                    </includes>
+                                    <!-- 关闭过滤以保持原始编码 -->
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                            <!-- 不要尝试更改编码 -->
+                            <nonFilteredFileExtensions>
+                                <nonFilteredFileExtension>iss</nonFilteredFileExtension>
+                            </nonFilteredFileExtensions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- 4. 将Maven依赖复制到build/lib目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/build/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- 5. 将JDK复制并解压到build/jdk目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>extract-jdk</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- 创建临时目录 -->
+                                <mkdir dir="${project.build.directory}/temp"/>
+                                
+                                <!-- 从父目录复制JDK压缩包 -->
+                                <echo message="复制JDK压缩包..."/>
+                                <copy file="${basedir}/../jdk/OpenJDK17U-jre_x64_windows_hotspot_17.0.7_7.zip" 
+                                      tofile="${project.build.directory}/temp/jdk.zip" 
+                                      overwrite="true"/>
+                                
+                                <!-- 解压JDK压缩包 -->
+                                <echo message="解压JDK压缩包..."/>
+                                <unzip src="${project.build.directory}/temp/jdk.zip" 
+                                       dest="${project.build.directory}/build/jdk" 
+                                       overwrite="true"/>
+                                
+                                <!-- 清理临时文件 -->
+                                <echo message="清理临时文件..."/>
+                                <delete dir="${project.build.directory}/temp"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 添加生成run.exe的插件 -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.3.2</version>
+                <executions>
+                    <execution>
+                        <id>create-exe</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <dontWrapJar>true</dontWrapJar>
+                            <outfile>${project.build.directory}/build/${project.build.finalName}.exe</outfile>
+                            <jar>${project.artifactId}.jar</jar>
+                            <errTitle>应用程序错误</errTitle>
+                            <icon>src/main/resources/images/logo.ico</icon>
+                            <chdir>.</chdir>
+                            <classPath>
+                                <mainClass>com.xm2013.example.example.MainApplication</mainClass>
+                                <addDependencies>false</addDependencies>
+                            </classPath>
+                            <jre>
+                                <path>jdk</path>
+                                <bundledJre64Bit>true</bundledJre64Bit>
+                                <minVersion>17</minVersion>
+                                <jdkPreference>jreOnly</jdkPreference>
+                                <runtimeBits>64</runtimeBits>
+                                <opts>
+                                    <opt>-classpath</opt>
+                                    <opt>lib/*;${project.artifactId}.jar</opt>
+                                    <opt>--module-path</opt>
+                                    <opt>lib</opt>
+                                    <opt>--add-modules</opt>
+                                    <opt>javafx.controls,javafx.fxml,javafx.graphics</opt>
+                                    <opt>com.xm2013.example.example.MainApplication</opt>
+                                </opts>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>Example Application</fileDescription>
+                                <copyright>Copyright © 2023</copyright>
+                                <productVersion>1.0.0.0</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <internalName>${project.name}</internalName>
+                                <originalFilename>${project.build.finalName}.exe</originalFilename>
+                            </versionInfo>
                         </configuration>
                     </execution>
                 </executions>
