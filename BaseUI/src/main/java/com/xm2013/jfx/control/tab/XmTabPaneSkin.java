@@ -321,7 +321,7 @@ public class XmTabPaneSkin extends SkinBase {
         @Override
         protected double computePrefHeight(double width) {
 
-            if(tabs.size()==0){
+            if(tabs.isEmpty()){
                 return 45;
             }
 
@@ -384,7 +384,7 @@ public class XmTabPaneSkin extends SkinBase {
                 x += w;
             }
 
-            if(tabs.size()>0){
+            if(!tabs.isEmpty()){
                 XmTab tab = tabs.get(tabs.size() - 1);
                 if(tab.isSelected()){
                     headPane.scrollTo(tab);
